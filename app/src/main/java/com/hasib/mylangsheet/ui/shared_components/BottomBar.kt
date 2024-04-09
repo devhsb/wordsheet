@@ -25,16 +25,16 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BottomBar(
-    openInsertDialog: () -> Unit
+    onAddButtonClicked: () -> Unit
 ) {
     BottomBarContent(
-        openInsertDialog = openInsertDialog
+        onAddButtonClicked = onAddButtonClicked
     )
 }
 
 @Composable
 private fun BottomBarContent(
-    openInsertDialog: () -> Unit
+    onAddButtonClicked: () -> Unit
 ) {
     BottomAppBar(
         modifier = Modifier
@@ -46,13 +46,13 @@ private fun BottomBarContent(
             ),
         containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
-        AddButton(openInsertDialog = openInsertDialog)
+        AddButton(onAddButtonClicked = onAddButtonClicked)
     }
 }
 
 @Composable
 private fun AddButton(
-    openInsertDialog: () -> Unit
+    onAddButtonClicked: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -71,7 +71,7 @@ private fun AddButton(
             elevation = FloatingActionButtonDefaults.elevation(
                 defaultElevation = 7.dp
             ),
-            onClick = openInsertDialog,
+            onClick = onAddButtonClicked,
         ) {
             Row {
                 Icon(
@@ -90,5 +90,5 @@ private fun AddButton(
 @Preview()
 @Composable
 private fun BottomBarPreview() {
-    BottomBar(openInsertDialog = {  })
+    BottomBar(onAddButtonClicked = {  })
 }

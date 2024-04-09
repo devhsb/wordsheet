@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -60,13 +61,16 @@ private fun WordScreenBody(
     val dialogViewModel = wordViewModel.dialogViewModel
     val dialogUiState by dialogViewModel.dialogUiState.collectAsState()
 
+    var action by wordViewModel.action
+
     val wordList by wordViewModel.wordList.collectAsState()
 
     Scaffold(
         topBar = { CenterAlignedTopAppbar(title = "Words") },
         bottomBar = {
             BottomBar(
-                openInsertDialog = {
+                onAddButtonClicked = {
+                    action = "Add"
                     dialogViewModel.isDialogOpen()
                 }
             )
@@ -92,9 +96,18 @@ private fun WordScreenBody(
                         dialogViewModel.isSimpleDialogOpen()
                         dialogViewModel.resetDialogState()
                     },
+
                     onDeletePressed = {
                         dialogViewModel.isSimpleDialogOpen()
                         wordViewModel.deleteWord()
+                    },
+
+                    onEditPressed = {
+                        action = "Update"
+                        dialogViewModel.updateDialogState(
+                            isSimpleDialogOpen = false,
+                            isDialogOpen = true
+                        )
                     },
                     wordMeaning = dialogUiState.meaningTextFieldValue
                 )

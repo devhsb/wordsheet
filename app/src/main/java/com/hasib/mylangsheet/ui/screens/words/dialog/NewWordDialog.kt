@@ -95,8 +95,8 @@ fun NewWordDialog(
                     .fillMaxWidth()
                     .align(Alignment.End),
                 onClick = {
-                    wordViewModel.insertWord()
-                    dialogViewModel.resetDialogState()
+                    wordViewModel.handleDatabase()
+                    dialogViewModel.isDialogOpen()
                 }
             ) {
                 Text(text = "Done", color = Color.White)

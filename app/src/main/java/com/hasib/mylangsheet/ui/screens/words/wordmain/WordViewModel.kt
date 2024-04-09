@@ -1,6 +1,7 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hasib.mylangsheet.data.Repository.LangRepository
@@ -26,6 +27,14 @@ class WordViewModel @Inject constructor(
     val dialogViewModel = DialogViewModel()
     private val dialogUiState = dialogViewModel.dialogUiState
 
+    val action = mutableStateOf("")
+
+    fun handleDatabase() {
+        when(action.value) {
+            "Add" -> insertWord()
+            "Update" -> updateWord()
+        }
+    }
 
     //TODO: Insert operation
     fun insertWord() {
@@ -38,7 +47,7 @@ class WordViewModel @Inject constructor(
         }
     }
 
-    //TODO: Retrieve all operation
+    // Retrieve all operation
     private var _wordsList = MutableStateFlow<List<Word>>(emptyList())
     val wordList: StateFlow<List<Word>>
         get() = _wordsList
@@ -52,7 +61,7 @@ class WordViewModel @Inject constructor(
         }
     }
 
-    //TODO: Delete operation
+    // Delete operation
     fun deleteWord() {
         viewModelScope.launch(Dispatchers.IO) {
             val selectedWord = Word(
@@ -64,13 +73,15 @@ class WordViewModel @Inject constructor(
         }
     }
 
-
-    fun getSelectedWord(id: Int) {
+    // Update operation
+    fun updateWord() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getSelectedWord(id)
-                .collectLatest { selectedWord ->
-
-                }
+            val updatedWord = Word(
+                id = dialogUiState.value.currentWordId,
+                word = dialogUiState.value.wordTextFieldValue,
+                wordMeaning = dialogUiState.value.meaningTextFieldValue
+            )
+            repository.updateWord(updatedWord)
         }
     }
 

@@ -3,12 +3,14 @@ package com.hasib.mylangsheet.ui.screens.words.dialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +29,7 @@ fun SimpleDialog(
     modifier: Modifier = Modifier,
     isOpened: () -> Unit,
     onDeletePressed: () -> Unit,
+    onEditPressed: () -> Unit,
     wordMeaning: String
 ) {
 
@@ -38,7 +41,6 @@ fun SimpleDialog(
                 .width(
                     (width / 1.2).dp
                 )
-                .height(120.dp)
                 .background(MaterialTheme.colorScheme.onBackground)
                 .padding(10.dp)
                 .clip(shape = RoundedCornerShape(20.dp)),
@@ -52,17 +54,30 @@ fun SimpleDialog(
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
 
-            IconButton(
+            Row(
                 modifier = Modifier
                     .align(Alignment.End),
-
-                onClick = onDeletePressed,
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                )
+
+                IconButton(
+                    onClick = onEditPressed,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Edit,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+
+                IconButton(
+                    onClick = onDeletePressed,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
             }
         }
     }
@@ -74,7 +89,8 @@ fun SimpleDialogPreview() {
     SimpleDialog(
         isOpened = { },
         onDeletePressed = {},
-        wordMeaning = ""
+        onEditPressed = {},
+        wordMeaning = "Sample "
     )
 }
 
