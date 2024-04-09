@@ -27,17 +27,19 @@ class WordViewModel @Inject constructor(
     val dialogViewModel = DialogViewModel()
     private val dialogUiState = dialogViewModel.dialogUiState
 
-    val action = mutableStateOf("")
+    val action = mutableStateOf(Action.NO_ACTION)
 
     fun handleDatabase() {
         when(action.value) {
-            "Add" -> insertWord()
-            "Update" -> updateWord()
+            Action.INSERT -> insertWord()
+            Action.UPDATE -> updateWord()
+            Action.DELETE -> deleteWord()
+            Action.NO_ACTION -> TODO()
         }
     }
 
     //TODO: Insert operation
-    fun insertWord() {
+    private fun insertWord() {
         viewModelScope.launch {
             val newWord = Word(
                 word = dialogUiState.value.wordTextFieldValue,
@@ -62,7 +64,7 @@ class WordViewModel @Inject constructor(
     }
 
     // Delete operation
-    fun deleteWord() {
+    private fun deleteWord() {
         viewModelScope.launch(Dispatchers.IO) {
             val selectedWord = Word(
                 id = dialogUiState.value.currentWordId,
@@ -74,7 +76,7 @@ class WordViewModel @Inject constructor(
     }
 
     // Update operation
-    fun updateWord() {
+    private fun updateWord() {
         viewModelScope.launch(Dispatchers.IO) {
             val updatedWord = Word(
                 id = dialogUiState.value.currentWordId,

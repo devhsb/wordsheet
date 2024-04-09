@@ -70,7 +70,7 @@ private fun WordScreenBody(
         bottomBar = {
             BottomBar(
                 onAddButtonClicked = {
-                    action = "Add"
+                    action = Action.INSERT
                     dialogViewModel.isDialogOpen()
                 }
             )
@@ -98,12 +98,13 @@ private fun WordScreenBody(
                     },
 
                     onDeletePressed = {
+                        action = Action.DELETE
                         dialogViewModel.isSimpleDialogOpen()
-                        wordViewModel.deleteWord()
+                        wordViewModel.handleDatabase()
                     },
 
                     onEditPressed = {
-                        action = "Update"
+                        action = Action.UPDATE
                         dialogViewModel.updateDialogState(
                             isSimpleDialogOpen = false,
                             isDialogOpen = true
