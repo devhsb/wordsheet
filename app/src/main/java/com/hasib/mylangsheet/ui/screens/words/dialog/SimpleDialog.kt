@@ -41,9 +41,11 @@ fun SimpleDialog(
                 .width(
                     (width / 1.2).dp
                 )
-                .background(MaterialTheme.colorScheme.onBackground)
-                .padding(10.dp)
-                .clip(shape = RoundedCornerShape(20.dp)),
+                .background(
+                    MaterialTheme.colorScheme.surfaceVariant,
+                    shape = MaterialTheme.shapes.large
+                )
+                .padding(10.dp),
 
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -51,7 +53,7 @@ fun SimpleDialog(
             Text(
                 text = wordMeaning,
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
 
             Row(
@@ -65,7 +67,7 @@ fun SimpleDialog(
                     Icon(
                         imageVector = Icons.Filled.Edit,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
 
@@ -75,7 +77,7 @@ fun SimpleDialog(
                     Icon(
                         imageVector = Icons.Filled.Delete,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }

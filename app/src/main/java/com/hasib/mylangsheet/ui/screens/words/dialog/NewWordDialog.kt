@@ -1,25 +1,30 @@
 package com.hasib.mylangsheet.ui.screens.words.dialog
 
-
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +34,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun NewWordDialog(
@@ -42,21 +48,21 @@ fun NewWordDialog(
     val dialogViewModel = wordViewModel.dialogViewModel
     val dialogUiState by dialogViewModel.dialogUiState.collectAsState()
 
+
+
+
     Dialog(
         onDismissRequest = { dialogViewModel.resetDialogState() },
     ) {
-        Card(
-            modifier = modifier
-                .width(
-                    (width / 1.2).dp
-                )
-                .height(
-                    (height / 2).dp
-                )
-                .background(MaterialTheme.colorScheme.onBackground)
-                .padding(10.dp),
 
-            shape = MaterialTheme.shapes.large
+        Card(
+            modifier = Modifier
+                .wrapContentSize()
+                .background(
+                    MaterialTheme.colorScheme.surfaceVariant,
+                    shape = MaterialTheme.shapes.large
+                )
+                .padding(10.dp)
         ) {
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
