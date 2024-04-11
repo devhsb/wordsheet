@@ -5,4 +5,7 @@ object Constants {
     const val DATABASE_VERSION = 1
     const val DATABASE_NAME = "lang_database"
     const val WORD_TABLE_NAME = "word_table"
+
+    const val WORDS_SCREEN = "words_screen"
+    const val PRACTICE_SCREEN = "practice_screen"
 }
