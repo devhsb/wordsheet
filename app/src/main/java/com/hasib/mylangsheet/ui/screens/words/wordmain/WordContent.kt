@@ -39,23 +39,27 @@ import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
 @Composable
 fun WordScreenContent(
     modifier: Modifier = Modifier,
-    wordViewModel: WordViewModel
+    wordViewModel: WordViewModel,
+    onWordItemClicked: () -> Unit,
+    onPracticeItemClicked: () -> Unit
 ) {
 
+    WordScreenBody(
+        modifier = Modifier.padding(10.dp),
+        wordViewModel = wordViewModel,
+        onWordItemClicked = onWordItemClicked,
+        onPracticeItemClicked = onPracticeItemClicked
 
-    MyLangsheetTheme(useDarkTheme = true) {
-        WordScreenBody(
-            modifier = Modifier.padding(10.dp),
-            wordViewModel = wordViewModel
-        )
-    }
+    )
 }
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 private fun WordScreenBody(
     modifier: Modifier = Modifier,
-    wordViewModel: WordViewModel
+    wordViewModel: WordViewModel,
+    onWordItemClicked: () -> Unit,
+    onPracticeItemClicked: () -> Unit
 ) {
 
     val dialogViewModel = wordViewModel.dialogViewModel
@@ -66,7 +70,14 @@ private fun WordScreenBody(
     val wordList by wordViewModel.wordList.collectAsState()
 
     Scaffold(
-        topBar = { CenterAlignedTopAppbar(title = "Words") },
+        topBar = {
+            CenterAlignedTopAppbar(
+                title = "Words",
+                onWordItemClicked = onWordItemClicked,
+                onPracticeItemClicked = onPracticeItemClicked,
+                wordViewModel = wordViewModel
+            )
+        },
         bottomBar = {
             BottomBar(
                 onAddButtonClicked = {
@@ -181,7 +192,7 @@ private fun WordCard(
             .clickable(onClick = openSimpleDialog),
         shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.onBackground,
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
         )
     ) {
 
@@ -193,7 +204,7 @@ private fun WordCard(
                 text = word.word,
                 style = MaterialTheme.typography.titleMedium,
                 letterSpacing = 3.sp,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
 

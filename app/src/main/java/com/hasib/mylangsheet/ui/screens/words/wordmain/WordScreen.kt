@@ -4,9 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun WordsScreen() {
-    val wordViewModel: WordViewModel = viewModel()
+fun WordsScreen(
+    wordViewModel: WordViewModel,
+    onWordItemClicked: () -> Unit,
+    onPracticeItemClicked: () -> Unit
+) {
+//    val wordViewModel: WordViewModel = viewModel()
     WordScreenContent(
-        wordViewModel = wordViewModel
+        wordViewModel = wordViewModel,
+        onWordItemClicked = onWordItemClicked,
+        onPracticeItemClicked = onPracticeItemClicked
     )
 }

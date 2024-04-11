@@ -27,6 +27,7 @@ class WordViewModel @Inject constructor(
     val dialogViewModel = DialogViewModel()
     private val dialogUiState = dialogViewModel.dialogUiState
 
+    val topbarDropDownState = mutableStateOf(false)
     val action = mutableStateOf(Action.NO_ACTION)
 
     fun handleDatabase() {
