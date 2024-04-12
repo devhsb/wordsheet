@@ -174,9 +174,9 @@ private fun WordList(
 
 
 @Composable
-private fun WordCard(
+fun WordCard(
     modifier: Modifier = Modifier,
-    offset: DpOffset,
+    offset: DpOffset = DpOffset(0.dp,0.dp),
     word: Word,
     openSimpleDialog: () -> Unit
 ) {

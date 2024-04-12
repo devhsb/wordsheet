@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.hasib.mylangsheet.ui.screens.navigation.Navigation
+import com.hasib.mylangsheet.ui.navigation.Navigation
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordsScreen
 import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
