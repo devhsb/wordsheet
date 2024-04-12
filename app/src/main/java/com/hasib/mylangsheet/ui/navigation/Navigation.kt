@@ -1,4 +1,4 @@
-package com.hasib.mylangsheet.ui.screens.navigation
+package com.hasib.mylangsheet.ui.navigation
 
 
 import androidx.compose.runtime.Composable
