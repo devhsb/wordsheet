@@ -44,7 +44,6 @@ fun PracticeContent(
     }
 
 
-
     Scaffold(
         topBar = {
             CenterAlignedTopAppbar(
@@ -68,8 +67,6 @@ fun PracticeContent(
                         passedWord.remove(randomWord)
                     }
 
-                    Log.d("TAG", "PracticeContent: $passedWord")
-
                 }
             )
 
@@ -92,7 +89,7 @@ private fun PracticeBody(
 
         WordCard(
             word = word,
-            openSimpleDialog = openSimpleDialog
+            openSimpleDialog = {}
         )
 
         Spacer(modifier = Modifier.height(70.dp))
