@@ -51,8 +51,8 @@ android {
     }
 }
 
-dependencies {
 
+dependencies {
     //room
     val room_version = "2.6.1"
     implementation("androidx.room:room-ktx:$room_version")
@@ -74,7 +74,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
     //accompanist
-    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
