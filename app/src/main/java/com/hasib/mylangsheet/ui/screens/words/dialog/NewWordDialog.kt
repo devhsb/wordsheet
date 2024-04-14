@@ -1,6 +1,7 @@
 package com.hasib.mylangsheet.ui.screens.words.dialog
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -48,7 +50,7 @@ fun NewWordDialog(
     val dialogViewModel = wordViewModel.dialogViewModel
     val dialogUiState by dialogViewModel.dialogUiState.collectAsState()
 
-
+    val context = LocalContext.current
 
 
     Dialog(
@@ -101,8 +103,13 @@ fun NewWordDialog(
                     .fillMaxWidth()
                     .align(Alignment.End),
                 onClick = {
-                    wordViewModel.handleDatabase()
-                    dialogViewModel.isDialogOpen()
+                    if(dialogUiState.wordTextFieldValue.isBlank() || dialogUiState.meaningTextFieldValue.isBlank()) {
+                        Toast.makeText(context, "please fill the textfields", Toast.LENGTH_SHORT).show()
+                    }else {
+                        wordViewModel.handleDatabase()
+                        dialogViewModel.isDialogOpen()
+                    }
+
                 }
             ) {
                 Text(text = "Done", color = Color.White)
