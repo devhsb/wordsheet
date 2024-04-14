@@ -1,7 +1,9 @@
 package com.hasib.mylangsheet.ui.navigation
 
 
+import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,6 +18,7 @@ fun Navigation(
     navController: NavHostController,
     wordViewModel: WordViewModel
 ) {
+    val context = LocalContext.current
     NavHost(
         navController = navController,
         startDestination = WORDS_SCREEN,
@@ -33,7 +36,11 @@ fun Navigation(
                 },
                 onPracticeItemClicked = {
                     wordViewModel.topbarDropDownState.value = false
-                    navController.navigate(PRACTICE_SCREEN)
+                    if(wordViewModel.wordList.value.isEmpty()){
+                        Toast.makeText(context, "Please add some words first", Toast.LENGTH_SHORT).show()
+                    }else {
+                        navController.navigate(PRACTICE_SCREEN)
+                    }
                 }
             )
 
