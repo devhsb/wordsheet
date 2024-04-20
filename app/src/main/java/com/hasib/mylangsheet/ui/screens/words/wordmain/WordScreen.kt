@@ -7,12 +7,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun WordsScreen(
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit,
-    onPracticeItemClicked: () -> Unit
+    onPracticeItemClicked: () -> Unit,
+    onCategoryItemClicked: () -> Unit
 ) {
 //    val wordViewModel: WordViewModel = viewModel()
     WordScreenContent(
         wordViewModel = wordViewModel,
         onWordItemClicked = onWordItemClicked,
-        onPracticeItemClicked = onPracticeItemClicked
+        onPracticeItemClicked = onPracticeItemClicked,
+        onCategoryItemClicked = onCategoryItemClicked
     )
 }
