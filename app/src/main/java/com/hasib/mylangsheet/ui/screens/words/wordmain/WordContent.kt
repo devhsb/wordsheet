@@ -41,14 +41,16 @@ fun WordScreenContent(
     modifier: Modifier = Modifier,
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit,
-    onPracticeItemClicked: () -> Unit
+    onPracticeItemClicked: () -> Unit,
+    onCategoryItemClicked: () -> Unit
 ) {
 
     WordScreenBody(
         modifier = Modifier.padding(10.dp),
         wordViewModel = wordViewModel,
         onWordItemClicked = onWordItemClicked,
-        onPracticeItemClicked = onPracticeItemClicked
+        onPracticeItemClicked = onPracticeItemClicked,
+        onCategoryItemClicked = onCategoryItemClicked
 
     )
 }
@@ -59,7 +61,8 @@ private fun WordScreenBody(
     modifier: Modifier = Modifier,
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit,
-    onPracticeItemClicked: () -> Unit
+    onPracticeItemClicked: () -> Unit,
+    onCategoryItemClicked: () -> Unit
 ) {
 
     val dialogViewModel = wordViewModel.dialogViewModel
@@ -73,9 +76,11 @@ private fun WordScreenBody(
         topBar = {
             CenterAlignedTopAppbar(
                 title = "Words",
+                wordViewModel = wordViewModel,
                 onWordItemClicked = onWordItemClicked,
                 onPracticeItemClicked = onPracticeItemClicked,
-                wordViewModel = wordViewModel
+                onCategoryItemClicked = onCategoryItemClicked,
+
             )
         },
         bottomBar = {
