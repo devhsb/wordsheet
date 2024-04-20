@@ -88,11 +88,48 @@ fun Navigation(
                         context = context
                     )
                 },
+
+                onCategoryItemClicked = {
+                    navigate(
+                        navigationType = NavigationType.CATEGORY_SCREEN,
+                        navController = navController,
+                        wordViewModel = wordViewModel
+                    )
+                }
+
+
             )
         }
 
         composable(route = CATEGORY_SCREEN) {
-            CategoryScreen()
+            CategoryScreen(
+                wordViewModel = wordViewModel,
+
+                onWordItemClicked = {
+                    navigate(
+                        navigationType = NavigationType.WORD_SCREEN,
+                        wordViewModel = wordViewModel,
+                        navController = navController
+                    )
+                },
+
+                onPracticeItemClicked = {
+                    navigate(
+                        navigationType = NavigationType.PRACTICE_SCREEN,
+                        wordViewModel = wordViewModel,
+                        navController = navController,
+                        context = context
+                    )
+                },
+
+                onCategoryClicked = {
+                    navigate(
+                        navigationType = NavigationType.CATEGORY_SCREEN,
+                        navController = navController,
+                        wordViewModel = wordViewModel
+                    )
+                }
+            )
         }
     }
 }
