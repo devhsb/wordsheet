@@ -46,6 +46,7 @@ fun CenterAlignedTopAppbar(
     title: String,
     onWordItemClicked: () -> Unit,
     onPracticeItemClicked: () -> Unit,
+    onCategoryItemClicked: () -> Unit,
     wordViewModel: WordViewModel
 ) {
     Column {
@@ -88,6 +89,10 @@ fun CenterAlignedTopAppbar(
                 text = "Practice",
                 onItemClicked = onPracticeItemClicked
             )
+            DropdownMenuItem(
+                text = "Categories",
+                onItemClicked = onCategoryItemClicked
+            )
         }
 
     }
@@ -120,13 +125,13 @@ fun DropdownMenuItem(
 @Preview
 @Composable
 fun CenterAlignedTopAppbarPreview() {
-    CenterAlignedTopAppbar(title = "Words", {}, {}, viewModel())
+    CenterAlignedTopAppbar(title = "Words", {}, {}, {}, viewModel())
 }
 
 @Preview
 @Composable
 fun CenterAlignedTopAppbarPreviewDark() {
     MyLangsheetTheme(useDarkTheme = true) {
-        CenterAlignedTopAppbar(title = "Words", {}, {}, viewModel())
+        CenterAlignedTopAppbar(title = "Words", {}, {}, {}, viewModel())
     }
 }

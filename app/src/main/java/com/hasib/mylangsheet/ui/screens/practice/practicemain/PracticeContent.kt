@@ -36,6 +36,7 @@ fun PracticeContent(
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit = {},
     onPracticeItemClicked: () -> Unit = {},
+    onCategoryClicked: () -> Unit = {},
 ) {
 
     val words by wordViewModel.wordList.collectAsState()
@@ -57,6 +58,7 @@ fun PracticeContent(
                 title = "Practice",
                 onWordItemClicked = onWordItemClicked,
                 onPracticeItemClicked = onPracticeItemClicked,
+                onCategoryItemClicked = onCategoryClicked,
                 wordViewModel = wordViewModel
             )
         }
