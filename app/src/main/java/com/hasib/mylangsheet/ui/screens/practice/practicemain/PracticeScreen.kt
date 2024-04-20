@@ -8,10 +8,12 @@ fun PracticeScreen(
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit,
     onPracticeItemClicked: () -> Unit,
+    onCategoryItemClicked: () -> Unit
 ) {
     PracticeContent(
         wordViewModel = wordViewModel,
         onWordItemClicked = onWordItemClicked,
-        onPracticeItemClicked = onPracticeItemClicked
+        onPracticeItemClicked = onPracticeItemClicked,
+        onCategoryClicked = onCategoryItemClicked
     )
 }
