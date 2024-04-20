@@ -8,4 +8,5 @@ object Constants {
 
     const val WORDS_SCREEN = "words_screen"
     const val PRACTICE_SCREEN = "practice_screen"
+    const val CATEGORY_SCREEN = "category_screen"
 }
