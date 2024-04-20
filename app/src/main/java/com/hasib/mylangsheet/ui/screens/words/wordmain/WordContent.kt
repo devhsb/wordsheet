@@ -85,6 +85,7 @@ private fun WordScreenBody(
         },
         bottomBar = {
             BottomBar(
+                addBtnText = "ADD",
                 onAddButtonClicked = {
                     action = Action.INSERT
                     dialogViewModel.isDialogOpen()

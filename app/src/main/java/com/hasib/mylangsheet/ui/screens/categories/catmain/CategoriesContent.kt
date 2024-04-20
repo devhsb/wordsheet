@@ -30,6 +30,8 @@ fun CategoryContent(
 
         bottomBar = {
             BottomBar(
+                addBtnText = "CREATE",
+
                 onAddButtonClicked = {
 
                 }
