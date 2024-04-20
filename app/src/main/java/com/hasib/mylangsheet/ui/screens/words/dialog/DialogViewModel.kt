@@ -8,11 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 class DialogViewModel : ViewModel() {
-
-    init {
-        Log.d("TAG", "dialog viewmodel loaded: ")
-    }
-
+    
     //TODO: DIALOG OPERATIONS
     private val _dialogUiState = MutableStateFlow(DialogUiState())
     val dialogUiState: StateFlow<DialogUiState>
@@ -57,29 +53,5 @@ class DialogViewModel : ViewModel() {
             )
         }
     }
-
-
-    //TODO: CRUD OPERATIONS
-//    fun insertWord() {
-//        viewModelScope.launch {
-//            val newWord = Word(
-//                word = _dialogUiState.value.wordTextFieldValue,
-//                wordMeaning = _dialogUiState.value.meaningTextFieldValue,
-//            )
-//            repository.insertWord(newWord)
-//        }
-//    }
-//
-//    private var _wordsList = MutableStateFlow<List<Word>>(emptyList())
-//    val wordList: StateFlow<List<Word>>
-//        get() = _wordsList
-//
-//    fun getAllWords() {
-//        viewModelScope.launch {
-//            repository.getAllWords.collectLatest {
-//                _wordsList.value = it
-//            }
-//        }
-//    }
 
 }

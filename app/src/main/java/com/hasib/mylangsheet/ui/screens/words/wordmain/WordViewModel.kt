@@ -1,11 +1,15 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import android.util.Log
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hasib.mylangsheet.data.Repository.LangRepository
 import com.hasib.mylangsheet.data.model.Word
+import com.hasib.mylangsheet.ui.screens.categories.catdialog.CatDialogViewModel
 import com.hasib.mylangsheet.ui.screens.words.dialog.DialogViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +30,8 @@ class WordViewModel @Inject constructor(
 
     val dialogViewModel = DialogViewModel()
     private val dialogUiState = dialogViewModel.dialogUiState
+
+    val catDialogViewModel = CatDialogViewModel()
 
     val topbarDropDownState = mutableStateOf(false)
     val action = mutableStateOf(Action.NO_ACTION)
