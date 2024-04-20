@@ -16,16 +16,24 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 
 @Composable
-fun CatDialog() {
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+fun CatDialog(
+    wordViewModel: WordViewModel
+) {
+    val catDialogViewModel = wordViewModel.catDialogViewModel
+
+    Dialog(onDismissRequest = { catDialogViewModel.resetCatDialogState() }) {
         Card(
             modifier = Modifier
                 .wrapContentSize()
@@ -58,7 +66,7 @@ fun CatDialog() {
                     .fillMaxWidth(),
                 onClick = { }
             ) {
-                Text(text = "Done", color = Color.White)
+                Text(text = "Create", color = Color.White)
             }
         }
     }
@@ -73,7 +81,7 @@ private fun NewCategoryTextField(
     OutlinedTextField(
         modifier = modifier
             .fillMaxWidth()
-            .height(50.dp),
+            .height(60.dp),
         value = value,
         onValueChange = onValueChange,
         placeholder = { Text("Category Name") },
@@ -93,7 +101,7 @@ private fun NewCategoryTextField(
 @Composable
 @Preview
 private fun CatDialogPreview() {
-    CatDialog()
+    CatDialog(viewModel())
 }
 
 
