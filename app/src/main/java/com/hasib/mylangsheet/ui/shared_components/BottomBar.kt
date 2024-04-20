@@ -1,6 +1,7 @@
 package com.hasib.mylangsheet.ui.shared_components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,16 +26,19 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BottomBar(
-    onAddButtonClicked: () -> Unit
+    onAddButtonClicked: () -> Unit,
+    addBtnText: String
 ) {
     BottomBarContent(
-        onAddButtonClicked = onAddButtonClicked
+        onAddButtonClicked = onAddButtonClicked,
+        addBtnText = addBtnText
     )
 }
 
 @Composable
 private fun BottomBarContent(
-    onAddButtonClicked: () -> Unit
+    onAddButtonClicked: () -> Unit,
+    addBtnText: String
 ) {
     BottomAppBar(
         modifier = Modifier
@@ -46,13 +50,17 @@ private fun BottomBarContent(
             ),
         containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
-        AddButton(onAddButtonClicked = onAddButtonClicked)
+        AddButton(
+            onAddButtonClicked = onAddButtonClicked,
+            addBtnText = addBtnText
+        )
     }
 }
 
 @Composable
 private fun AddButton(
-    onAddButtonClicked: () -> Unit
+    onAddButtonClicked: () -> Unit,
+    addBtnText: String
 ) {
     Box(
         modifier = Modifier
@@ -73,14 +81,16 @@ private fun AddButton(
             ),
             onClick = onAddButtonClicked,
         ) {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(text = "ADD", color = MaterialTheme.colorScheme.onPrimaryContainer)
+                Text(text = addBtnText, color = MaterialTheme.colorScheme.onPrimaryContainer)
             }
         }
 
@@ -90,5 +100,5 @@ private fun AddButton(
 @Preview()
 @Composable
 private fun BottomBarPreview() {
-    BottomBar(onAddButtonClicked = {  })
+    BottomBar(onAddButtonClicked = { }, "ADD")
 }
