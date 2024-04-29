@@ -32,6 +32,7 @@ fun CatDialog(
     wordViewModel: WordViewModel
 ) {
     val catDialogViewModel = wordViewModel.catDialogViewModel
+    val catDialogUiState by catDialogViewModel.catDialogUiState.collectAsState()
 
     Dialog(onDismissRequest = { catDialogViewModel.resetCatDialogState() }) {
         Card(
@@ -54,8 +55,10 @@ fun CatDialog(
             Spacer(modifier = Modifier.height(20.dp))
 
             NewCategoryTextField(
-                onValueChange = {},
-                value = ""
+                onValueChange = {
+                    catDialogViewModel.updateCatDialogState(newCategoryText = it)
+                },
+                value = catDialogUiState.newCategoryText
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -64,7 +67,10 @@ fun CatDialog(
                 modifier = Modifier
                     .height(50.dp)
                     .fillMaxWidth(),
-                onClick = { }
+                onClick = {
+                    catDialogViewModel.isDialogOpen()
+                    wordViewModel.insertCategory()
+                }
             ) {
                 Text(text = "Create", color = Color.White)
             }
