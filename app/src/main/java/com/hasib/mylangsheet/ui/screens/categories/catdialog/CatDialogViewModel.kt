@@ -12,18 +12,28 @@ class CatDialogViewModel: ViewModel() {
         get() = _catDialogUiStatte
 
     fun updateCatDialogState(
-        isCatDialogOpen: Boolean = catDialogUiState.value.isCatDialogOpen
+        isCatDialogOpen: Boolean = catDialogUiState.value.isCatDialogOpen,
+        newCategoryText: String = catDialogUiState.value.newCategoryText
     ) {
         _catDialogUiStatte.update {
             it.copy(
-                isCatDialogOpen = isCatDialogOpen
+                isCatDialogOpen = isCatDialogOpen,
+                newCategoryText = newCategoryText
             )
         }
     }
     fun resetCatDialogState() {
         _catDialogUiStatte.update {
             it.copy(
-                isCatDialogOpen = false
+                isCatDialogOpen = false,
+                newCategoryText = ""
+            )
+        }
+    }
+    fun isDialogOpen(dialogState: Boolean = catDialogUiState.value.isCatDialogOpen) {
+        _catDialogUiStatte.update {
+            it.copy(
+                isCatDialogOpen = !dialogState
             )
         }
     }
