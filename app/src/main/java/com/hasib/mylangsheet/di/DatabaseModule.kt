@@ -23,7 +23,7 @@ object DatabaseModule {
         context,
         LangDatabase::class.java,
         DATABASE_NAME
-    ).build()
+    ).addMigrations(LangDatabase.migration2to3).build()
 
     @Singleton
     @Provides
