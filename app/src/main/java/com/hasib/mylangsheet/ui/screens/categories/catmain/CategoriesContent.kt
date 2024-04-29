@@ -47,7 +47,6 @@ fun CategoryContent(
         }
 
     ) {
-
         Box(
             modifier = Modifier.padding(it)
         ) {
