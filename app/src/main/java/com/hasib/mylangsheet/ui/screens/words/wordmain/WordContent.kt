@@ -23,18 +23,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hasib.mylangsheet.data.model.Word
+import com.hasib.mylangsheet.data.room.entites.Word
 import com.hasib.mylangsheet.ui.screens.words.dialog.DialogViewModel
 import com.hasib.mylangsheet.ui.shared_components.BottomBar
 import com.hasib.mylangsheet.ui.shared_components.CenterAlignedTopAppbar
 import com.hasib.mylangsheet.ui.screens.words.dialog.NewWordDialog
 import com.hasib.mylangsheet.ui.screens.words.dialog.SimpleDialog
-import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
 
 @Composable
 fun WordScreenContent(

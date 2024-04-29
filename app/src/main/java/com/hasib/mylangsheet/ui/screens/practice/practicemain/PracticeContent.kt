@@ -1,6 +1,5 @@
 package com.hasib.mylangsheet.ui.screens.practice.practicemain
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,10 +21,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hasib.mylangsheet.data.model.Word
+import com.hasib.mylangsheet.data.room.entites.Word
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordCard
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.shared_components.CenterAlignedTopAppbar
