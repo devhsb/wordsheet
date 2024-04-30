@@ -38,6 +38,9 @@ interface LangDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCategory(category: Category)
 
+    @Delete
+    suspend fun deleteCategory(category: Category)
+
     @Query("SELECT * FROM category")
     fun getCategories()  : Flow<List<Category>>
 

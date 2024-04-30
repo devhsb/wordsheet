@@ -38,6 +38,9 @@ class LangRepository @Inject constructor(private val langDao: LangDao) {
     suspend fun insertCategory(category: Category) {
         langDao.insertCategory(category)
     }
+    suspend fun deleteCategory(category: Category) {
+        langDao.deleteCategory(category)
+    }
 
 
 
