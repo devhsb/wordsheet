@@ -163,7 +163,6 @@ private fun WordList(
                 word = word,
                 offset = cardOffset,
                 openSimpleDialog = {
-                    Log.d("TAG", "${word.word}: $word.id")
                     dialogViewModel.updateDialogState(
                         wordTextFieldValue = word.word,
                         meaningTextFieldValue = word.wordMeaning,

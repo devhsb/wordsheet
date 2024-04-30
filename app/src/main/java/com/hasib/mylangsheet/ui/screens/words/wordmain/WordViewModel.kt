@@ -63,7 +63,6 @@ class WordViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllWords.collectLatest {
                 _wordsList.value = it
-                Log.d("TAG", "wordlist: ${_wordsList.value} ")
             }
         }
     }
