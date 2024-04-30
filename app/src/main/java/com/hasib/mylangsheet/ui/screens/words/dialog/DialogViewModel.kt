@@ -3,13 +3,13 @@ package com.hasib.mylangsheet.ui.screens.words.dialog
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.hasib.mylangsheet.data.room.entites.Word
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 class DialogViewModel : ViewModel() {
-    
-    //TODO: DIALOG OPERATIONS
+
     private val _dialogUiState = MutableStateFlow(DialogUiState())
     val dialogUiState: StateFlow<DialogUiState>
         get() = _dialogUiState
@@ -27,19 +27,16 @@ class DialogViewModel : ViewModel() {
     }
 
     fun updateDialogState(
-        wordTextFieldValue: String = dialogUiState.value.wordTextFieldValue,
-        meaningTextFieldValue: String = dialogUiState.value.meaningTextFieldValue,
+        selectedWord: Word = dialogUiState.value.selectedWord,
         isDialogOpen: Boolean = dialogUiState.value.isDialogOpen,
         isSimpleDialogOpen: Boolean = dialogUiState.value.isSimpleDialogOpen,
-        currentWordId: Int = dialogUiState.value.currentWordId
+//        currentWordId: Int = dialogUiState.value.currentWordId
     ) {
         _dialogUiState.update { currentState ->
             currentState.copy(
-                wordTextFieldValue = wordTextFieldValue,
-                meaningTextFieldValue = meaningTextFieldValue,
+                selectedWord = selectedWord,
                 isDialogOpen = isDialogOpen,
                 isSimpleDialogOpen = isSimpleDialogOpen,
-                currentWordId = currentWordId
             )
         }
     }
@@ -47,8 +44,7 @@ class DialogViewModel : ViewModel() {
     fun resetDialogState() {
         _dialogUiState.update { currentState ->
             currentState.copy(
-                wordTextFieldValue = "",
-                meaningTextFieldValue = "",
+                selectedWord = Word("", ""),
                 isDialogOpen = false
             )
         }

@@ -3,6 +3,7 @@ package com.hasib.mylangsheet.ui.screens.words.wordmain
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -119,13 +123,13 @@ private fun WordScreenBody(
                     },
 
                     onEditPressed = {
-                        action = Action.UPDATE
+                        action = Action.MANUAL_UPDATE
                         dialogViewModel.updateDialogState(
                             isSimpleDialogOpen = false,
                             isDialogOpen = true
                         )
                     },
-                    wordMeaning = dialogUiState.meaningTextFieldValue
+                    wordMeaning = dialogUiState.selectedWord.wordMeaning
                 )
             }
             WordList(
@@ -142,31 +146,23 @@ private fun WordList(
     wordList: List<Word>,
     dialogViewModel: DialogViewModel
 ) {
-    val screenWidth = LocalConfiguration.current.screenWidthDp
-
-    LazyColumn(
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        verticalItemSpacing = 7.dp,
+        horizontalArrangement = Arrangement.spacedBy(7.dp),
         modifier = modifier
             .fillMaxWidth()
     ) {
         items(
             items = wordList,
-            key = { it.id }
+            key = { it.word }
         ) { word ->
-
-            val cardOffset = if (word.id % 2 == 0) {
-                DpOffset(x = (screenWidth / 2.3).dp, y = 0.dp)
-            } else {
-                DpOffset(x = 0.dp, y = 0.dp)
-            }
 
             WordCard(
                 word = word,
-                offset = cardOffset,
                 openSimpleDialog = {
                     dialogViewModel.updateDialogState(
-                        wordTextFieldValue = word.word,
-                        meaningTextFieldValue = word.wordMeaning,
-                        currentWordId = word.id,
+                        selectedWord = word,
                         isSimpleDialogOpen = true
                     )
                 }
@@ -179,7 +175,6 @@ private fun WordList(
 @Composable
 fun WordCard(
     modifier: Modifier = Modifier,
-    offset: DpOffset = DpOffset(0.dp,0.dp),
     word: Word,
     openSimpleDialog: () -> Unit
 ) {
@@ -189,23 +184,20 @@ fun WordCard(
             .width(
                 (screenWidth / 2).dp
             )
-            .height(60.dp)
-            .padding(vertical = 5.dp)
-            .offset(x = offset.x)
             .clickable(onClick = openSimpleDialog),
-        shape = MaterialTheme.shapes.extraLarge,
+        shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         )
     ) {
 
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(15.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = word.word,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall,
                 letterSpacing = 3.sp,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )

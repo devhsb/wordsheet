@@ -89,7 +89,7 @@ fun PracticeContent(
 @Preview
 @Composable
 fun PracticeBodyPreview() {
-    PracticeBody(word = Word(0, "Test", "test")) {
+    PracticeBody(word = Word( "Test", "test")) {
 
     }
 }
@@ -118,6 +118,7 @@ private fun PracticeBody(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             WordCard(
+                modifier = Modifier.height(70.dp),
                 word = word,
                 openSimpleDialog = {}
             )
@@ -136,17 +137,6 @@ private fun PracticeBody(
         }
     }
 }
-
-
-fun RandomWord(
-    wordList: List<Word>
-): Int {
-    return Random.nextInt(0, wordList.size - 1)
-}
- 
-
-
-
 
 
 

@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hasib.mylangsheet.data.room.entites.Word
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
 
@@ -75,12 +76,13 @@ fun NewWordDialog(
 
             Spacer(modifier = Modifier.height(20.dp))
 
+            val word = dialogUiState.selectedWord
             WordInsertionTextField(
                 textFieldPlaceholder = "Word",
                 onValueChange = {
-                    dialogViewModel.updateDialogState(wordTextFieldValue = it)
+                    dialogViewModel.updateDialogState(selectedWord = word.copy(word = it))
                 },
-                value = dialogUiState.wordTextFieldValue
+                value = dialogUiState.selectedWord.word
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -90,9 +92,9 @@ fun NewWordDialog(
                     .align(Alignment.End),
                 textFieldPlaceholder = "Meaning",
                 onValueChange = {
-                    dialogViewModel.updateDialogState(meaningTextFieldValue = it)
+                    dialogViewModel.updateDialogState(word.copy(wordMeaning = it))
                 },
-                value = dialogUiState.meaningTextFieldValue
+                value = dialogUiState.selectedWord.wordMeaning
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -103,9 +105,13 @@ fun NewWordDialog(
                     .fillMaxWidth()
                     .align(Alignment.End),
                 onClick = {
-                    if(dialogUiState.wordTextFieldValue.isBlank() || dialogUiState.meaningTextFieldValue.isBlank()) {
-                        Toast.makeText(context, "please fill the textfields", Toast.LENGTH_SHORT).show()
-                    }else {
+                    if (
+                        dialogUiState.selectedWord.word.isEmpty() ||
+                        dialogUiState.selectedWord.wordMeaning.isEmpty()
+                    ) {
+                        Toast.makeText(context, "please fill the textfields", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
                         wordViewModel.handleDatabase()
                         dialogViewModel.isDialogOpen()
                     }

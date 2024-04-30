@@ -1,6 +1,5 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,18 +37,16 @@ class WordViewModel @Inject constructor(
         when (action.value) {
             Action.INSERT -> insertWord()
             Action.UPDATE -> updateWord()
+            Action.MANUAL_UPDATE -> updateWordManual()
             Action.DELETE -> deleteWord()
             Action.NO_ACTION -> TODO()
         }
     }
 
-    //TODO: Word crud operations
+    // Word crud operations
     private fun insertWord() {
         viewModelScope.launch {
-            val newWord = Word(
-                word = dialogUiState.value.wordTextFieldValue,
-                wordMeaning = dialogUiState.value.meaningTextFieldValue,
-            )
+            val newWord = dialogUiState.value.selectedWord
             repository.insertWord(newWord)
         }
     }
@@ -70,11 +67,7 @@ class WordViewModel @Inject constructor(
     // Delete operation
     private fun deleteWord() {
         viewModelScope.launch(Dispatchers.IO) {
-            val selectedWord = Word(
-                id = dialogUiState.value.currentWordId,
-                word = dialogUiState.value.wordTextFieldValue,
-                wordMeaning = dialogUiState.value.meaningTextFieldValue
-            )
+            val selectedWord = dialogUiState.value.selectedWord
             repository.deleteWord(selectedWord)
         }
     }
@@ -82,12 +75,17 @@ class WordViewModel @Inject constructor(
     // Update operation
     private fun updateWord() {
         viewModelScope.launch(Dispatchers.IO) {
-            val updatedWord = Word(
-                id = dialogUiState.value.currentWordId,
-                word = dialogUiState.value.wordTextFieldValue,
-                wordMeaning = dialogUiState.value.meaningTextFieldValue
-            )
+            val updatedWord = dialogUiState.value.selectedWord
             repository.updateWord(updatedWord)
+        }
+    }
+
+    // Manual update
+    private fun updateWordManual() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val word = dialogUiState.value.selectedWord.word
+            val wordMeaning = dialogUiState.value.selectedWord.wordMeaning
+            repository.updateWord(word, wordMeaning)
         }
     }
 

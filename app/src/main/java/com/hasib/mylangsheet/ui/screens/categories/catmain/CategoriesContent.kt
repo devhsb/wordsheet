@@ -113,7 +113,7 @@ private fun CategoryList(
     ) {
         items(
             items = categoryList,
-            key = { it.categoryId }
+            key = { it.categoryName }
         ) { category ->
 
             val dismissState = rememberDismissState()
@@ -200,7 +200,7 @@ private fun CategoryCard(
 @Composable
 private fun CategoryCardPrevie() {
     MyLangsheetTheme(useDarkTheme = true) {
-        CategoryCard(Category(0, "janm"))
+        CategoryCard(Category("janm" ))
     }
 }
 
