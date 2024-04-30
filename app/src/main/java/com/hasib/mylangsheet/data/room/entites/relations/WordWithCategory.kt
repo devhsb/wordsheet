@@ -11,8 +11,8 @@ data class WordWithCategory(
     val word: Word,
 
     @Relation(
-        parentColumn = "word_id",
-        entityColumn = "category_id",
+        parentColumn = "word",
+        entityColumn = "category_name",
         associateBy = Junction(CategoryWordCrossRef::class)
     )
     val categories: List<Category>
