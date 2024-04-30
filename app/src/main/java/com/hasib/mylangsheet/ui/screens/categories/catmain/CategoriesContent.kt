@@ -49,6 +49,7 @@ fun CategoryContent(
     onWordItemClicked: () -> Unit = {},
     onPracticeItemClicked: () -> Unit = {},
     onCategoryItemClicked: () -> Unit = {},
+    onSwipeDismiss: (Category) -> Unit
 ) {
     val catDialogViewModel = wordViewModel.catDialogViewModel
     val catDialogUiState by catDialogViewModel.catDialogUiState.collectAsState()
@@ -85,7 +86,10 @@ fun CategoryContent(
                 CatDialog(wordViewModel = wordViewModel)
             }
 
-            CategoryList(categoryList = categories)
+            CategoryList(
+                categoryList = categories,
+                onSwipeDismiss = onSwipeDismiss
+            )
         }
 
     }
@@ -94,7 +98,8 @@ fun CategoryContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CategoryList(
-    categoryList: List<Category>
+    categoryList: List<Category>,
+    onSwipeDismiss: (Category) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
@@ -105,8 +110,16 @@ private fun CategoryList(
         ) { category ->
 
             val dismissState = rememberDismissState()
+            val dismissDirection = dismissState.dismissDirection
+            val isDismissed = dismissState.isDismissed(DismissDirection.EndToStart)
+
+            if(isDismissed && dismissDirection == DismissDirection.EndToStart) {
+                onSwipeDismiss(category)
+            }
+
+
             val degree by animateFloatAsState(
-                targetValue = if(dismissState.targetValue == DismissValue.Default) 0f else -45f,
+                targetValue = if (dismissState.targetValue == DismissValue.Default) 0f else -45f,
                 label = "delete button degree"
             )
 
