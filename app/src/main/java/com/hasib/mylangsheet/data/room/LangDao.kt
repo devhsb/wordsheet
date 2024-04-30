@@ -24,13 +24,16 @@ interface LangDao {
     @Update
     suspend fun updateWord(word: Word)
 
+    @Query("UPDATE word_table SET word = :word, word_meaning = :wordMeaning")
+    suspend fun updateWord(word: String, wordMeaning: String)
+
     @Delete
     suspend fun deleteWord(word: Word)
 
     @Query("SELECT * FROM $WORD_TABLE_NAME")
     fun getAllWords() : Flow<List<Word>>
 
-    @Query("SELECT * FROM $WORD_TABLE_NAME WHERE word_id = :wordId")
+    @Query("SELECT * FROM $WORD_TABLE_NAME WHERE word = :wordId")
     fun getSelectedWord(wordId: Int) : Flow<Word>
 
 

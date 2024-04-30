@@ -3,6 +3,7 @@ package com.hasib.mylangsheet.di
 import android.content.Context
 import androidx.room.Room
 import com.hasib.mylangsheet.data.room.LangDatabase
+import com.hasib.mylangsheet.data.room.migrations.Migration2to3
 import com.hasib.mylangsheet.util.Constants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -23,7 +24,7 @@ object DatabaseModule {
         context,
         LangDatabase::class.java,
         DATABASE_NAME
-    ).addMigrations(LangDatabase.migration2to3).build()
+    ).addMigrations(Migration2to3).build()
 
     @Singleton
     @Provides

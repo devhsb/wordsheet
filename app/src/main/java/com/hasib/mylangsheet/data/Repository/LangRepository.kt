@@ -25,6 +25,10 @@ class LangRepository @Inject constructor(private val langDao: LangDao) {
         langDao.updateWord(word)
     }
 
+    suspend fun updateWord(word: String, wordMeaning: String) {
+        langDao.updateWord(word, wordMeaning)
+    }
+
     suspend fun deleteWord(word: Word) {
         langDao.deleteWord(word)
     }
