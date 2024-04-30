@@ -1,6 +1,7 @@
 package com.hasib.mylangsheet.ui.screens.categories.catmain
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,9 +14,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,6 +39,7 @@ import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.shared_components.BottomBar
 import com.hasib.mylangsheet.ui.shared_components.CenterAlignedTopAppbar
 import com.hasib.mylangsheet.data.room.entites.Category
+import com.hasib.mylangsheet.ui.shared_components.RedBackground
 import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -84,6 +91,7 @@ fun CategoryContent(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CategoryList(
     categoryList: List<Category>
@@ -95,7 +103,22 @@ private fun CategoryList(
             items = categoryList,
             key = { it.categoryId }
         ) { category ->
-            CategoryCard(category = category)
+
+            val dismissState = rememberDismissState()
+            val degree by animateFloatAsState(
+                targetValue = if(dismissState.targetValue == DismissValue.Default) 0f else -45f,
+                label = "delete button degree"
+            )
+
+            SwipeToDismiss(
+                state = dismissState,
+                directions = setOf(DismissDirection.EndToStart),
+                background = { RedBackground(degree) },
+                dismissContent = {
+                    CategoryCard(category = category)
+                }
+            )
+
         }
     }
 }
