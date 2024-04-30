@@ -1,8 +1,11 @@
 package com.hasib.mylangsheet.ui.screens.categories.catmain
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,24 +26,27 @@ import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hasib.mylangsheet.ui.screens.categories.catdialog.CatDialog
-import com.hasib.mylangsheet.ui.screens.categories.catdialog.CatDialogViewModel
-import com.hasib.mylangsheet.ui.screens.words.wordmain.Action
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.shared_components.BottomBar
 import com.hasib.mylangsheet.ui.shared_components.CenterAlignedTopAppbar
 import com.hasib.mylangsheet.data.room.entites.Category
 import com.hasib.mylangsheet.ui.shared_components.RedBackground
 import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -95,6 +101,7 @@ fun CategoryContent(
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CategoryList(
@@ -113,8 +120,12 @@ private fun CategoryList(
             val dismissDirection = dismissState.dismissDirection
             val isDismissed = dismissState.isDismissed(DismissDirection.EndToStart)
 
-            if(isDismissed && dismissDirection == DismissDirection.EndToStart) {
-                onSwipeDismiss(category)
+            if (isDismissed && dismissDirection == DismissDirection.EndToStart) {
+                val scope = rememberCoroutineScope()
+                scope.launch {
+                    delay(300)
+                    onSwipeDismiss(category)
+                }
             }
 
 
@@ -122,15 +133,31 @@ private fun CategoryList(
                 targetValue = if (dismissState.targetValue == DismissValue.Default) 0f else -45f,
                 label = "delete button degree"
             )
+            
+            var itemAppeared by remember {mutableStateOf(false)}
+            LaunchedEffect(key1 = true) {
+                itemAppeared = true
+            }
+            
 
-            SwipeToDismiss(
-                state = dismissState,
-                directions = setOf(DismissDirection.EndToStart),
-                background = { RedBackground(degree) },
-                dismissContent = {
-                    CategoryCard(category = category)
-                }
-            )
+            AnimatedVisibility(
+                visible = itemAppeared && !isDismissed,
+                enter = expandVertically(
+                    animationSpec = tween(durationMillis = 300)
+                ),
+                exit = shrinkVertically(
+                    animationSpec = tween(durationMillis = 300)
+                ),
+            ) {
+                SwipeToDismiss(
+                    state = dismissState,
+                    directions = setOf(DismissDirection.EndToStart),
+                    background = { RedBackground(degree) },
+                    dismissContent = {
+                        CategoryCard(category = category)
+                    }
+                )
+            }
 
         }
     }
