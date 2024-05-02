@@ -1,6 +1,6 @@
 package com.hasib.mylangsheet.ui.screens.words.dialog
 
-import com.hasib.mylangsheet.data.room.entites.Word
+import com.hasib.mylangsheet.data.room.entites.word.Word
 
 data class DialogUiState(
     var selectedWord: Word = Word("", ""),

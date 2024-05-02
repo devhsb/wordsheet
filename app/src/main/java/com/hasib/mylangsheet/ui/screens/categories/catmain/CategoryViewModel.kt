@@ -3,7 +3,7 @@ package com.hasib.mylangsheet.ui.screens.categories.catmain
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hasib.mylangsheet.data.Repository.LangRepository
-import com.hasib.mylangsheet.data.room.entites.Category
+import com.hasib.mylangsheet.data.room.entites.category.Category
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

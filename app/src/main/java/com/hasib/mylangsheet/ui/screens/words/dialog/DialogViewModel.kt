@@ -1,9 +1,8 @@
 package com.hasib.mylangsheet.ui.screens.words.dialog
 
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.hasib.mylangsheet.data.room.entites.Word
+import com.hasib.mylangsheet.data.room.entites.word.Word
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
