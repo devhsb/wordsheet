@@ -2,7 +2,6 @@ package com.hasib.mylangsheet.ui.screens.categories.catmain
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.hasib.mylangsheet.data.room.entites.Category
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 
 @Composable

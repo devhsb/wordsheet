@@ -42,7 +42,7 @@ import com.hasib.mylangsheet.ui.screens.categories.catdialog.CatDialog
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.shared_components.BottomBar
 import com.hasib.mylangsheet.ui.shared_components.CenterAlignedTopAppbar
-import com.hasib.mylangsheet.data.room.entites.Category
+import com.hasib.mylangsheet.data.room.entites.category.Category
 import com.hasib.mylangsheet.ui.shared_components.RedBackground
 import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
 import kotlinx.coroutines.delay
