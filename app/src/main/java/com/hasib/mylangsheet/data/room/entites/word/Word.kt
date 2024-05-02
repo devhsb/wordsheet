@@ -1,4 +1,4 @@
-package com.hasib.mylangsheet.data.room.entites
+package com.hasib.mylangsheet.data.room.entites.word
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,10 +7,11 @@ import com.hasib.mylangsheet.util.Constants.WORD_TABLE_NAME
 
 @Entity(tableName = WORD_TABLE_NAME)
 data class Word(
-//    @PrimaryKey(autoGenerate = true) @ColumnInfo("word_id") val id: Int = 0,
 
     @PrimaryKey(autoGenerate = false)
     val word: String,
 
-    @ColumnInfo("word_meaning") val wordMeaning: String
+    @ColumnInfo("word_meaning") val wordMeaning: String,
+
+    @ColumnInfo(defaultValue = "general") val category: String = "general"
 )
