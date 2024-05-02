@@ -1,8 +1,8 @@
 package com.hasib.mylangsheet.data.Repository
 
-import com.hasib.mylangsheet.data.room.entites.Word
+import com.hasib.mylangsheet.data.room.entites.word.Word
 import com.hasib.mylangsheet.data.room.LangDao
-import com.hasib.mylangsheet.data.room.entites.Category
+import com.hasib.mylangsheet.data.room.entites.category.Category
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -37,7 +37,6 @@ class LangRepository @Inject constructor(private val langDao: LangDao) {
     //category operations
 
     val getCategories = langDao.getCategories()
-    val getCategoriesWithWords = fun(category: String) = langDao.getCategoriesWithWords(category)
     val getWordsWithCategories = fun(word: String) = langDao.getWordsWithCategories(word)
     suspend fun insertCategory(category: Category) {
         langDao.insertCategory(category)

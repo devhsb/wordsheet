@@ -7,9 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.hasib.mylangsheet.data.room.entites.Category
-import com.hasib.mylangsheet.data.room.entites.Word
-import com.hasib.mylangsheet.data.room.entites.relations.CategoryWithWord
+import com.hasib.mylangsheet.data.room.entites.category.Category
+import com.hasib.mylangsheet.data.room.entites.word.Word
 import com.hasib.mylangsheet.data.room.entites.relations.WordWithCategory
 import kotlinx.coroutines.flow.Flow
 import com.hasib.mylangsheet.util.Constants.WORD_TABLE_NAME
@@ -47,9 +46,10 @@ interface LangDao {
     @Query("SELECT * FROM category")
     fun getCategories()  : Flow<List<Category>>
 
-    @Transaction
-    @Query("SELECT * FROM Category WHERE category_name = :categoryName")
-    fun getCategoriesWithWords(categoryName: String) : Flow<List<CategoryWithWord>>
+//
+//    @Transaction
+//    @Query("SELECT * FROM Category WHERE category_name = :categoryName")
+//    fun getCategoriesWithWords(categoryName: String) : Flow<List<CategoryWithWord>>
 
     @Transaction
     @Query("SELECT * FROM $WORD_TABLE_NAME WHERE word = :word")
