@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hasib.mylangsheet.data.Repository.LangRepository
-import com.hasib.mylangsheet.data.room.entites.Category
-import com.hasib.mylangsheet.data.room.entites.Word
+import com.hasib.mylangsheet.data.room.entites.category.Category
+import com.hasib.mylangsheet.data.room.entites.word.Word
 import com.hasib.mylangsheet.ui.screens.categories.catdialog.CatDialogViewModel
 import com.hasib.mylangsheet.ui.screens.words.dialog.DialogViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
