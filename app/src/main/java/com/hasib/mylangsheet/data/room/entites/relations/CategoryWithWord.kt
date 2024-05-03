@@ -5,13 +5,13 @@ import androidx.room.Relation
 import com.hasib.mylangsheet.data.room.entites.category.Category
 import com.hasib.mylangsheet.data.room.entites.word.Word
 
-data class WordWithCategory(
+data class CategoryWithWord(
     @Embedded
-    val word: Word,
+    val category: Category,
 
     @Relation(
-        parentColumn = "word",
-        entityColumn = "category_name",
+        parentColumn = "category_name",
+        entityColumn = "category",
     )
-    val categories: List<Category>
+    val words: List<Word>
 )

@@ -37,7 +37,8 @@ class LangRepository @Inject constructor(private val langDao: LangDao) {
     //category operations
 
     val getCategories = langDao.getCategories()
-    val getWordsWithCategories = fun(word: String) = langDao.getWordsWithCategories(word)
+    val getCategoryWithWords = fun(category: String) = langDao.getCategoryWithWords(category)
+
     suspend fun insertCategory(category: Category) {
         langDao.insertCategory(category)
     }

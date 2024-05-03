@@ -2,12 +2,17 @@ package com.hasib.mylangsheet.ui.navigation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.hasib.mylangsheet.ui.screens.categories.catmain.CategoryScreen
 import com.hasib.mylangsheet.ui.screens.practice.practicemain.PracticeScreen
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
@@ -28,15 +33,22 @@ fun Navigation(
     wordViewModel: WordViewModel
 ) {
     val context = LocalContext.current
+    val wordList by wordViewModel.wordList.collectAsState()
     NavHost(
         navController = navController,
         startDestination = WORDS_SCREEN,
     ) {
 
-        composable(route = WORDS_SCREEN) {
+        composable(
+            route = WORDS_SCREEN,
+            arguments = listOf(navArgument("category") { type = NavType.StringType } )
+        ) {backStackEntry ->
+
+            Log.d("TAG", "Navigation: ${backStackEntry.arguments?.getString("category")}")
 
             WordsScreen(
                 wordViewModel = wordViewModel,
+                wordList = wordList,
 
                 onWordItemClicked = {
                     navigate(
@@ -128,6 +140,11 @@ fun Navigation(
                         navController = navController,
                         wordViewModel = wordViewModel
                     )
+                },
+
+                onCategoryCardClicked = {category ->
+                    wordViewModel.getCategoryWords(category)
+                    navController.navigate(route = "words/$category")
                 }
             )
         }
