@@ -26,8 +26,8 @@ object DatabaseModule {
         DATABASE_NAME
     )
         .addMigrations(Migration2to3)
-        .build().also {
-            CategoryCallback(it).categoryInitize()
+        .build().also { langDb ->
+            CategoryCallback.categoryInit(langDb)
         }
 
     @Singleton

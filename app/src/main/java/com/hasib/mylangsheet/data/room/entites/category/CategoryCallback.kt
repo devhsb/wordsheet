@@ -7,9 +7,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CategoryCallback (private val dbInstance: LangDatabase)  {
-
-        fun categoryInitize() {
+object CategoryCallback  {
+        fun categoryInit(dbInstance: LangDatabase) {
             val langDao = dbInstance.getLangDao()
             CoroutineScope(Dispatchers.IO).launch {
                 langDao.insertCategory(
