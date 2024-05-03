@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hasib.mylangsheet.data.room.entites.word.Word
+import com.hasib.mylangsheet.ui.screens.words.actions.DbAction
 import com.hasib.mylangsheet.ui.screens.words.dialog.DialogViewModel
 import com.hasib.mylangsheet.ui.shared_components.BottomBar
 import com.hasib.mylangsheet.ui.shared_components.CenterAlignedTopAppbar
@@ -38,7 +39,8 @@ fun WordScreenContent(
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit,
     onPracticeItemClicked: () -> Unit,
-    onCategoryItemClicked: () -> Unit
+    onCategoryItemClicked: () -> Unit,
+    wordList: List<Word>
 ) {
 
     WordScreenBody(
@@ -46,7 +48,8 @@ fun WordScreenContent(
         wordViewModel = wordViewModel,
         onWordItemClicked = onWordItemClicked,
         onPracticeItemClicked = onPracticeItemClicked,
-        onCategoryItemClicked = onCategoryItemClicked
+        onCategoryItemClicked = onCategoryItemClicked,
+        wordList = wordList
 
     )
 }
@@ -58,15 +61,16 @@ private fun WordScreenBody(
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit,
     onPracticeItemClicked: () -> Unit,
-    onCategoryItemClicked: () -> Unit
+    onCategoryItemClicked: () -> Unit,
+    wordList: List<Word>
 ) {
 
     val dialogViewModel = wordViewModel.dialogViewModel
     val dialogUiState by dialogViewModel.dialogUiState.collectAsState()
 
-    var action by wordViewModel.action
+    var action by wordViewModel.dbAction
 
-    val wordList by wordViewModel.wordList.collectAsState()
+//    val wordList by wordViewModel.wordList.collectAsState()
 
     Scaffold(
         topBar = {
@@ -83,7 +87,7 @@ private fun WordScreenBody(
             BottomBar(
                 addBtnText = "ADD",
                 onAddButtonClicked = {
-                    action = Action.INSERT
+                    action = DbAction.INSERT
                     dialogViewModel.isDialogOpen()
                 }
             )
@@ -111,13 +115,13 @@ private fun WordScreenBody(
                     },
 
                     onDeletePressed = {
-                        action = Action.DELETE
+                        action = DbAction.DELETE
                         dialogViewModel.isSimpleDialogOpen()
                         wordViewModel.handleDatabase()
                     },
 
                     onEditPressed = {
-                        action = Action.MANUAL_UPDATE
+                        action = DbAction.MANUAL_UPDATE
                         dialogViewModel.updateDialogState(
                             isSimpleDialogOpen = false,
                             isDialogOpen = true

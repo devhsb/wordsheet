@@ -1,20 +1,21 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hasib.mylangsheet.data.room.entites.word.Word
 
 @Composable
 fun WordsScreen(
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit,
     onPracticeItemClicked: () -> Unit,
-    onCategoryItemClicked: () -> Unit
+    onCategoryItemClicked: () -> Unit,
+    wordList: List<Word>
 ) {
-//    val wordViewModel: WordViewModel = viewModel()
     WordScreenContent(
         wordViewModel = wordViewModel,
         onWordItemClicked = onWordItemClicked,
         onPracticeItemClicked = onPracticeItemClicked,
-        onCategoryItemClicked = onCategoryItemClicked
+        onCategoryItemClicked = onCategoryItemClicked,
+        wordList = wordList
     )
 }

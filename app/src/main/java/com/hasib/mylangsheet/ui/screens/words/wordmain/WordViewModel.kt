@@ -1,5 +1,6 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,8 @@ import com.hasib.mylangsheet.data.Repository.LangRepository
 import com.hasib.mylangsheet.data.room.entites.category.Category
 import com.hasib.mylangsheet.data.room.entites.word.Word
 import com.hasib.mylangsheet.ui.screens.categories.catdialog.CatDialogViewModel
+import com.hasib.mylangsheet.ui.screens.categories.catmain.CategoryViewModel
+import com.hasib.mylangsheet.ui.screens.words.actions.DbAction
 import com.hasib.mylangsheet.ui.screens.words.dialog.DialogViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +25,8 @@ class WordViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        getAllWords()
+//        getAllWords()
+        getCategoryWords("general")
     }
 
     val dialogViewModel = DialogViewModel()
@@ -31,15 +35,17 @@ class WordViewModel @Inject constructor(
     val catDialogViewModel = CatDialogViewModel()
 
     val topbarDropDownState = mutableStateOf(false)
-    val action = mutableStateOf(Action.NO_ACTION)
+
+    val dbAction = mutableStateOf(DbAction.NO_ACTION)
+
 
     fun handleDatabase() {
-        when (action.value) {
-            Action.INSERT -> insertWord()
-            Action.UPDATE -> updateWord()
-            Action.MANUAL_UPDATE -> updateWordManual()
-            Action.DELETE -> deleteWord()
-            Action.NO_ACTION -> TODO()
+        when (dbAction.value) {
+            DbAction.INSERT -> insertWord()
+            DbAction.UPDATE -> updateWord()
+            DbAction.MANUAL_UPDATE -> updateWordManual()
+            DbAction.DELETE -> deleteWord()
+            DbAction.NO_ACTION -> TODO()
         }
     }
 
@@ -60,6 +66,14 @@ class WordViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllWords.collectLatest {
                 _wordsList.value = it
+            }
+        }
+    }
+
+    fun getCategoryWords(category: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getCategoryWithWords(category).collectLatest { words ->
+                _wordsList.value = words[0].words
             }
         }
     }
