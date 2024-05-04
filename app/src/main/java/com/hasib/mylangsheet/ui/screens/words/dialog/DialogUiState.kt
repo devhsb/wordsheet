@@ -7,5 +7,5 @@ data class DialogUiState(
     var isDialogOpen: Boolean = false,
     var isSimpleDialogOpen: Boolean = false,
     var dialogTitle: String = "Add New Word",
-    val categoryName: String = "general"
+    var categoryName: String = "general"
 )
