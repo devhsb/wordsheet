@@ -40,7 +40,8 @@ fun WordScreenContent(
     onWordItemClicked: () -> Unit,
     onPracticeItemClicked: () -> Unit,
     onCategoryItemClicked: () -> Unit,
-    wordList: List<Word>
+    wordList: List<Word>,
+    appBarTitle: String
 ) {
 
     WordScreenBody(
@@ -49,7 +50,8 @@ fun WordScreenContent(
         onWordItemClicked = onWordItemClicked,
         onPracticeItemClicked = onPracticeItemClicked,
         onCategoryItemClicked = onCategoryItemClicked,
-        wordList = wordList
+        wordList = wordList,
+        appBarTitle = appBarTitle
 
     )
 }
@@ -62,7 +64,8 @@ private fun WordScreenBody(
     onWordItemClicked: () -> Unit,
     onPracticeItemClicked: () -> Unit,
     onCategoryItemClicked: () -> Unit,
-    wordList: List<Word>
+    wordList: List<Word>,
+    appBarTitle: String
 ) {
 
     val dialogViewModel = wordViewModel.dialogViewModel
@@ -70,12 +73,10 @@ private fun WordScreenBody(
 
     var action by wordViewModel.dbAction
 
-//    val wordList by wordViewModel.wordList.collectAsState()
-
     Scaffold(
         topBar = {
             CenterAlignedTopAppbar(
-                title = "Words",
+                title = appBarTitle,
                 wordViewModel = wordViewModel,
                 onWordItemClicked = onWordItemClicked,
                 onPracticeItemClicked = onPracticeItemClicked,
