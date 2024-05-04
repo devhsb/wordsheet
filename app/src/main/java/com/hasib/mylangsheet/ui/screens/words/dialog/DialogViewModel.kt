@@ -29,13 +29,14 @@ class DialogViewModel : ViewModel() {
         selectedWord: Word = dialogUiState.value.selectedWord,
         isDialogOpen: Boolean = dialogUiState.value.isDialogOpen,
         isSimpleDialogOpen: Boolean = dialogUiState.value.isSimpleDialogOpen,
-//        currentWordId: Int = dialogUiState.value.currentWordId
+        dialogTitle: String = dialogUiState.value.dialogTitle
     ) {
         _dialogUiState.update { currentState ->
             currentState.copy(
                 selectedWord = selectedWord,
                 isDialogOpen = isDialogOpen,
                 isSimpleDialogOpen = isSimpleDialogOpen,
+                dialogTitle = dialogTitle
             )
         }
     }
