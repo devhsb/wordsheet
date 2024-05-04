@@ -36,7 +36,7 @@ fun PracticeContent(
     onCategoryClicked: () -> Unit = {},
 ) {
 
-    val words by wordViewModel.wordList.collectAsState()
+    val words by wordViewModel.categoryWords.collectAsState()
 
     val passedWord: MutableList<Word> = words.toMutableList()
 
