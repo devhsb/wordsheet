@@ -61,10 +61,10 @@ fun Navigation(
                 )
             }
 
+            val dialogCategoryTitle = if (categoryName == "All") "general" else categoryName ?: "general"
             dialogViewModel.updateDialogState(
-                dialogTitle = "Add Into ${ if(categoryName == "All") "general" else categoryName ?: "general"}",
-
-                categoryName = if (categoryName == "All") "general" else categoryName ?: "general"
+                dialogTitle = "Add Into $dialogCategoryTitle",
+                categoryName = dialogCategoryTitle
             )
 
             WordsScreen(
@@ -126,7 +126,6 @@ fun Navigation(
                 },
 
                 onCategoryItemClicked = {
-
                     navigate(
                         navigationType = NavigationType.CATEGORY_SCREEN,
                         navController = navController,
