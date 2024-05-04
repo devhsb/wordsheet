@@ -22,13 +22,15 @@ class WordViewModel @Inject constructor(
     private val repository: LangRepository
 ) : ViewModel() {
 
-    init {
-        getAllWords()
-        getCategoryWords("general")
-    }
-
     val dialogViewModel = DialogViewModel()
     private val dialogUiState = dialogViewModel.dialogUiState
+
+    init {
+        getAllWords()
+        getCategoryWords(dialogUiState.value.categoryName)
+    }
+
+
 
     val catDialogViewModel = CatDialogViewModel()
 
@@ -39,7 +41,7 @@ class WordViewModel @Inject constructor(
 
     fun handleDatabase() {
         when (dbAction.value) {
-            DbAction.INSERT -> insertWord()
+            DbAction.INSERT -> insertWord(category = dialogUiState.value.categoryName)
             DbAction.UPDATE -> updateWord()
             DbAction.MANUAL_UPDATE -> updateWordManual()
             DbAction.DELETE -> deleteWord()
@@ -48,7 +50,7 @@ class WordViewModel @Inject constructor(
     }
 
     // Word crud operations
-    private fun insertWord(category: String = "general") {
+    private fun insertWord(category: String) {
         viewModelScope.launch {
             val newWord = dialogUiState.value.selectedWord.copy(category = category)
             repository.insertWord(newWord)
