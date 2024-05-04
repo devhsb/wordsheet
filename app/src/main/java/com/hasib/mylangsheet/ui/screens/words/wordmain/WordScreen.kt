@@ -9,13 +9,15 @@ fun WordsScreen(
     onWordItemClicked: () -> Unit,
     onPracticeItemClicked: () -> Unit,
     onCategoryItemClicked: () -> Unit,
-    wordList: List<Word>
+    wordList: List<Word>,
+    appBarTitle: String
 ) {
     WordScreenContent(
         wordViewModel = wordViewModel,
         onWordItemClicked = onWordItemClicked,
         onPracticeItemClicked = onPracticeItemClicked,
         onCategoryItemClicked = onCategoryItemClicked,
-        wordList = wordList
+        wordList = wordList,
+        appBarTitle = appBarTitle
     )
 }
