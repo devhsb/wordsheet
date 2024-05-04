@@ -1,6 +1,7 @@
 package com.hasib.mylangsheet.ui.navigation
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -40,6 +41,8 @@ fun Navigation(
 
     val dialogViewModel = wordViewModel.dialogViewModel
 
+
+
     NavHost(
         navController = navController,
         startDestination = WORDS_SCREEN,
@@ -50,6 +53,8 @@ fun Navigation(
             arguments = listOf(navArgument("category") { type = NavType.StringType })
         ) { backStackEntry ->
 
+            Log.d("TAG", "Navigation: ${backStackEntry.arguments?.getString("category")}")
+
             var categoryName by remember {
                 mutableStateOf(
                     backStackEntry.arguments?.getString("category")
@@ -57,8 +62,9 @@ fun Navigation(
             }
 
             dialogViewModel.updateDialogState(
-                dialogTitle = "Add Into ${categoryName ?: "General"}",
-                categoryName = if(categoryName == "All") "general" else categoryName  ?: "general"
+                dialogTitle = "Add Into ${ if(categoryName == "All") "general" else categoryName ?: "general"}",
+
+                categoryName = if (categoryName == "All") "general" else categoryName ?: "general"
             )
 
             WordsScreen(
@@ -120,6 +126,7 @@ fun Navigation(
                 },
 
                 onCategoryItemClicked = {
+
                     navigate(
                         navigationType = NavigationType.CATEGORY_SCREEN,
                         navController = navController,
