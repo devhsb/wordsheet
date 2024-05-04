@@ -1,6 +1,5 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +7,6 @@ import com.hasib.mylangsheet.data.Repository.LangRepository
 import com.hasib.mylangsheet.data.room.entites.category.Category
 import com.hasib.mylangsheet.data.room.entites.word.Word
 import com.hasib.mylangsheet.ui.screens.categories.catdialog.CatDialogViewModel
-import com.hasib.mylangsheet.ui.screens.categories.catmain.CategoryViewModel
 import com.hasib.mylangsheet.ui.screens.words.actions.DbAction
 import com.hasib.mylangsheet.ui.screens.words.dialog.DialogViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +23,7 @@ class WordViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-//        getAllWords()
+        getAllWords()
         getCategoryWords("general")
     }
 
@@ -58,22 +56,26 @@ class WordViewModel @Inject constructor(
     }
 
     // Retrieve all words operation
-    private var _wordsList = MutableStateFlow<List<Word>>(emptyList())
-    val wordList: StateFlow<List<Word>>
-        get() = _wordsList
 
+
+
+    val allWords = MutableStateFlow<List<Word>>(emptyList())
     private fun getAllWords() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllWords.collectLatest {
-                _wordsList.value = it
+                allWords.value = it
             }
         }
     }
 
+
+    private var _categoryWords = MutableStateFlow<List<Word>>(emptyList())
+    val categoryWords: StateFlow<List<Word>>
+        get() = _categoryWords
     fun getCategoryWords(category: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getCategoryWithWords(category).collectLatest { words ->
-                _wordsList.value = words[0].words
+                _categoryWords.value = words[0].words
             }
         }
     }
