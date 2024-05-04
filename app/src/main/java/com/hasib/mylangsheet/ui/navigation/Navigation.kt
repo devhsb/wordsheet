@@ -1,12 +1,14 @@
 package com.hasib.mylangsheet.ui.navigation
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -33,7 +35,10 @@ fun Navigation(
     wordViewModel: WordViewModel
 ) {
     val context = LocalContext.current
-    val wordList by wordViewModel.wordList.collectAsState()
+    val categoryWords by wordViewModel.categoryWords.collectAsState()
+
+    val allWords = wordViewModel.allWords.collectAsState().value
+
     NavHost(
         navController = navController,
         startDestination = WORDS_SCREEN,
@@ -41,16 +46,25 @@ fun Navigation(
 
         composable(
             route = WORDS_SCREEN,
-            arguments = listOf(navArgument("category") { type = NavType.StringType } )
-        ) {backStackEntry ->
+            arguments = listOf(navArgument("category") { type = NavType.StringType })
+        ) { backStackEntry ->
 
-            Log.d("TAG", "Navigation: ${backStackEntry.arguments?.getString("category")}")
+            var title by remember {
+                mutableStateOf(
+                    backStackEntry.arguments?.getString("category")
+                )
+            }
+
+            Log.d("TAG", "Navigation: $title")
 
             WordsScreen(
                 wordViewModel = wordViewModel,
-                wordList = wordList,
+                appBarTitle = title ?: "All",
+                wordList = if(title == "All" || title == null) allWords else categoryWords,
+
 
                 onWordItemClicked = {
+                    title = "All"
                     navigate(
                         navigationType = NavigationType.WORD_SCREEN,
                         wordViewModel = wordViewModel,
@@ -142,7 +156,7 @@ fun Navigation(
                     )
                 },
 
-                onCategoryCardClicked = {category ->
+                onCategoryCardClicked = { category ->
                     wordViewModel.getCategoryWords(category)
                     navController.navigate(route = "words/$category")
                 }
@@ -167,7 +181,7 @@ private fun navigate(
         }
 
         NavigationType.PRACTICE_SCREEN -> {
-            if (wordViewModel.wordList.value.isEmpty()) {
+            if (wordViewModel.categoryWords.value.isEmpty()) {
                 Toast.makeText(context, "Please add some words first", Toast.LENGTH_SHORT)
                     .show()
             } else {
