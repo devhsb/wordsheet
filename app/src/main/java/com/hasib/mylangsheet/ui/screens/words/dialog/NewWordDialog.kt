@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,9 +38,6 @@ fun NewWordDialog(
     modifier: Modifier = Modifier,
     wordViewModel: WordViewModel,
 ) {
-    val configuration = LocalConfiguration.current
-    val height = configuration.screenHeightDp
-    val width = configuration.screenWidthDp
 
     val dialogViewModel = wordViewModel.dialogViewModel
     val dialogUiState by dialogViewModel.dialogUiState.collectAsState()
@@ -64,7 +60,7 @@ fun NewWordDialog(
         ) {
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = "Add New Word",
+                text = dialogUiState.dialogTitle,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
@@ -104,7 +100,7 @@ fun NewWordDialog(
                         dialogUiState.selectedWord.word.isEmpty() ||
                         dialogUiState.selectedWord.wordMeaning.isEmpty()
                     ) {
-                        Toast.makeText(context, "please fill the textfields", Toast.LENGTH_SHORT)
+                        Toast.makeText(context, "please fill the text fields", Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         wordViewModel.handleDatabase()
@@ -154,6 +150,7 @@ fun NewCoinInsertDialogPreview() {
     MyLangsheetTheme(useDarkTheme = true) {
         NewWordDialog(
             wordViewModel = viewModel(),
+
         )
 
     }
@@ -165,6 +162,7 @@ fun NewCoinInsertDialogLightPreview() {
     MyLangsheetTheme(useDarkTheme = false) {
         NewWordDialog(
             wordViewModel = viewModel(),
+
         )
 
     }
