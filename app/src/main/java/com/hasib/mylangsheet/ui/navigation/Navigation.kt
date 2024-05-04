@@ -39,6 +39,8 @@ fun Navigation(
 
     val allWords = wordViewModel.allWords.collectAsState().value
 
+    val dialogViewModel = wordViewModel.dialogViewModel
+
     NavHost(
         navController = navController,
         startDestination = WORDS_SCREEN,
@@ -55,7 +57,7 @@ fun Navigation(
                 )
             }
 
-            Log.d("TAG", "Navigation: $title")
+            dialogViewModel.updateDialogState(dialogTitle = "Add Into ${title ?: "General"}")
 
             WordsScreen(
                 wordViewModel = wordViewModel,
