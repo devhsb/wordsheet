@@ -48,9 +48,9 @@ class WordViewModel @Inject constructor(
     }
 
     // Word crud operations
-    private fun insertWord() {
+    private fun insertWord(category: String = "general") {
         viewModelScope.launch {
-            val newWord = dialogUiState.value.selectedWord
+            val newWord = dialogUiState.value.selectedWord.copy(category = category)
             repository.insertWord(newWord)
         }
     }
@@ -112,6 +112,10 @@ class WordViewModel @Inject constructor(
                 Category(categoryName = catDialogViewModel.catDialogUiState.value.newCategoryText)
             repository.insertCategory(newCategory)
         }
+    }
+
+    fun insertWordIntoCategory() {
+
     }
 
 
