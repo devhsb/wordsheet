@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,6 +17,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.hasib.mylangsheet.data.room.entites.word.Word
 import com.hasib.mylangsheet.ui.screens.categories.catmain.CategoryScreen
 import com.hasib.mylangsheet.ui.screens.practice.practicemain.PracticeScreen
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
@@ -29,6 +32,7 @@ enum class NavigationType {
     CATEGORY_SCREEN
 }
 
+
 @Composable
 fun Navigation(
     navController: NavHostController,
@@ -41,8 +45,6 @@ fun Navigation(
 
     val dialogViewModel = wordViewModel.dialogViewModel
 
-
-
     NavHost(
         navController = navController,
         startDestination = WORDS_SCREEN,
@@ -52,8 +54,6 @@ fun Navigation(
             route = WORDS_SCREEN,
             arguments = listOf(navArgument("category") { type = NavType.StringType })
         ) { backStackEntry ->
-
-            Log.d("TAG", "Navigation: ${backStackEntry.arguments?.getString("category")}")
 
             var categoryName by remember {
                 mutableStateOf(
