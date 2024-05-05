@@ -56,7 +56,6 @@ class WordViewModel @Inject constructor(
             repository.insertWord(newWord)
         }
     }
-
     // Retrieve all words operation
 
 
