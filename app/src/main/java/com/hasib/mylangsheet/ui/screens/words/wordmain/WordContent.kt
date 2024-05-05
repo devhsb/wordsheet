@@ -1,6 +1,9 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -139,6 +142,7 @@ private fun WordScreenBody(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun WordList(
     modifier: Modifier = Modifier,
