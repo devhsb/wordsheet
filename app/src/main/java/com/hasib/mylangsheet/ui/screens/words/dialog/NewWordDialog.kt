@@ -1,7 +1,9 @@
 package com.hasib.mylangsheet.ui.screens.words.dialog
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
 
+@RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
