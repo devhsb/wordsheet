@@ -14,8 +14,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+data class WordUiState(
+    val searchQuery: String = "",
+)
 
 @HiltViewModel
 class WordViewModel @Inject constructor(
@@ -31,12 +36,23 @@ class WordViewModel @Inject constructor(
     }
 
 
-
     val catDialogViewModel = CatDialogViewModel()
 
     val topbarDropDownState = mutableStateOf(false)
 
     val dbAction = mutableStateOf(DbAction.NO_ACTION)
+
+
+
+    private val _wordUiState = MutableStateFlow(WordUiState())
+    val wordUiState: StateFlow<WordUiState>
+        get() = _wordUiState
+
+    fun updateWordState(searchQuery: String) {
+        _wordUiState.update {
+            it.copy(searchQuery = searchQuery)
+        }
+    }
 
 
     fun handleDatabase() {
@@ -45,6 +61,7 @@ class WordViewModel @Inject constructor(
             DbAction.UPDATE -> updateWord()
             DbAction.MANUAL_UPDATE -> updateWordManual()
             DbAction.DELETE -> deleteWord()
+            DbAction.SEARCH -> searchDatabase(query = wordUiState.value.searchQuery)
             DbAction.NO_ACTION -> TODO()
         }
     }
@@ -57,7 +74,6 @@ class WordViewModel @Inject constructor(
         }
     }
     // Retrieve all words operation
-
 
 
     val allWords = MutableStateFlow<List<Word>>(emptyList())
@@ -73,6 +89,7 @@ class WordViewModel @Inject constructor(
     private var _categoryWords = MutableStateFlow<List<Word>>(emptyList())
     val categoryWords: StateFlow<List<Word>>
         get() = _categoryWords
+
     fun getCategoryWords(category: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getCategoryWithWords(category).collectLatest { words ->
@@ -103,6 +120,14 @@ class WordViewModel @Inject constructor(
             val word = dialogUiState.value.selectedWord.word
             val wordMeaning = dialogUiState.value.selectedWord.wordMeaning
             repository.updateWord(word, wordMeaning)
+        }
+    }
+
+    private fun searchDatabase(query: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.searchDatabase(query).collectLatest {
+                allWords.value = it
+            }
         }
     }
 
