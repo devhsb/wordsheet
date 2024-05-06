@@ -1,5 +1,8 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +22,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class WordUiState(
-    val searchQuery: String = "",
+    var searchQuery: String = "",
+    val isSearchActive: Boolean = false,
 )
 
 @HiltViewModel
@@ -43,18 +47,24 @@ class WordViewModel @Inject constructor(
     val dbAction = mutableStateOf(DbAction.NO_ACTION)
 
 
-
     private val _wordUiState = MutableStateFlow(WordUiState())
     val wordUiState: StateFlow<WordUiState>
         get() = _wordUiState
 
-    fun updateWordState(searchQuery: String) {
+    fun updateWordState(
+        searchQuery: String = wordUiState.value.searchQuery,
+        isSearchActive: Boolean = wordUiState.value.isSearchActive
+    ) {
         _wordUiState.update {
-            it.copy(searchQuery = searchQuery)
+            it.copy(
+                searchQuery = searchQuery,
+                isSearchActive = isSearchActive
+            )
         }
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun handleDatabase() {
         when (dbAction.value) {
             DbAction.INSERT -> insertWord(category = dialogUiState.value.categoryName)
@@ -123,15 +133,18 @@ class WordViewModel @Inject constructor(
         }
     }
 
-    private fun searchDatabase(query: String) {
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun searchDatabase(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.searchDatabase(query).collectLatest {
-                allWords.value = it
+                allWords.value = it.filter { word ->
+                    word.word.contains(query, ignoreCase = true)
+                }
             }
         }
     }
 
-    //TODO: Category crud operations
+
     fun insertCategory() {
         viewModelScope.launch(Dispatchers.IO) {
             val newCategory =
@@ -139,10 +152,5 @@ class WordViewModel @Inject constructor(
             repository.insertCategory(newCategory)
         }
     }
-
-    fun insertWordIntoCategory() {
-
-    }
-
 
 }
