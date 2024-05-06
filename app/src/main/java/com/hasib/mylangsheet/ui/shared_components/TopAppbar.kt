@@ -22,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,43 +44,53 @@ fun CenterAlignedTopAppbar(
     onCategoryItemClicked: () -> Unit,
     wordViewModel: WordViewModel
 ) {
+    val wordUiState by wordViewModel.wordUiState.collectAsState()
+
     Column(
-        modifier = Modifier.padding(horizontal = 10.dp)
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
         var expanded by wordViewModel.topbarDropDownState
 
         CenterAlignedTopAppBar(title = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { expanded = !expanded },
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-
+            if(wordUiState.isSearchActive) {
+                SearchTextField(
+                    wordViewModel = wordViewModel
+                )
+            } else {
                 Row(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp)
+                        .clickable { expanded = !expanded },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
-                    )
 
-                    Spacer(modifier = Modifier.width(5.dp))
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.Bold
+                        )
 
-                    Icon(
-                        imageVector = Icons.Filled.KeyboardArrowDown,
-                        contentDescription = null
-                    )
-                }
+                        Spacer(modifier = Modifier.width(5.dp))
 
-                IconButton(
-                    onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = null,
-                    )
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowDown,
+                            contentDescription = null
+                        )
+                    }
+
+                    IconButton(
+                        onClick = { wordViewModel.updateWordState(isSearchActive = true) }) {
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = null,
+                        )
+                    }
                 }
             }
         })
@@ -132,16 +143,16 @@ fun DropdownMenuItem(
     )
 }
 
-@Preview
-@Composable
-fun CenterAlignedTopAppbarPreview() {
-    CenterAlignedTopAppbar(title = "Words", {}, {}, {}, viewModel())
-}
-
-@Preview
-@Composable
-fun CenterAlignedTopAppbarPreviewDark() {
-    MyLangsheetTheme(useDarkTheme = true) {
-        CenterAlignedTopAppbar(title = "Words", {}, {}, {}, viewModel())
-    }
-}
+//@Preview
+//@Composable
+//fun CenterAlignedTopAppbarPreview() {
+//    CenterAlignedTopAppbar(title = "Words", {}, {}, {}, viewModel())
+//}
+//
+//@Preview
+//@Composable
+//fun CenterAlignedTopAppbarPreviewDark() {
+//    MyLangsheetTheme(useDarkTheme = true) {
+//        CenterAlignedTopAppbar(title = "Words", {}, {}, {}, viewModel())
+//    }
+//}
