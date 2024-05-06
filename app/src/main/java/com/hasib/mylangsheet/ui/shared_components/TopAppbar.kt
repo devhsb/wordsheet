@@ -2,6 +2,7 @@ package com.hasib.mylangsheet.ui.shared_components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,11 +12,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,28 +43,44 @@ fun CenterAlignedTopAppbar(
     onCategoryItemClicked: () -> Unit,
     wordViewModel: WordViewModel
 ) {
-    Column {
+    Column(
+        modifier = Modifier.padding(horizontal = 10.dp)
+    ) {
         var expanded by wordViewModel.topbarDropDownState
 
         CenterAlignedTopAppBar(title = {
             Row(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .clickable { expanded = !expanded },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
 
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold
+                    )
 
-                Spacer(modifier = Modifier.width(5.dp))
+                    Spacer(modifier = Modifier.width(5.dp))
 
-                Icon(
-                    imageVector = Icons.Filled.KeyboardArrowDown,
-                    contentDescription = null
-                )
+                    Icon(
+                        imageVector = Icons.Filled.KeyboardArrowDown,
+                        contentDescription = null
+                    )
+                }
+
+                IconButton(
+                    onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = null,
+                    )
+                }
             }
         })
 
@@ -70,7 +89,7 @@ fun CenterAlignedTopAppbar(
             modifier = Modifier
                 .fillMaxWidth(),
             expanded = expanded,
-            onDismissRequest = {expanded = !expanded}) {
+            onDismissRequest = { expanded = !expanded }) {
 
             DropdownMenuItem(
                 text = "Words",
