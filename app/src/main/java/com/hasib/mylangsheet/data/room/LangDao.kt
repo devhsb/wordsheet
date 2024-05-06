@@ -35,6 +35,9 @@ interface LangDao {
     @Query("SELECT * FROM $WORD_TABLE_NAME WHERE word = :wordId")
     fun getSelectedWord(wordId: Int) : Flow<Word>
 
+    @Query("SELECT * FROM $WORD_TABLE_NAME WHERE word LIKE :searchQuery")
+    fun searchDatabase(searchQuery: String): Flow<List<Word>>
+
 
     //category operations
     @Insert(onConflict = OnConflictStrategy.IGNORE)
