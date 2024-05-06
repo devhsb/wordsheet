@@ -33,6 +33,9 @@ class LangRepository @Inject constructor(private val langDao: LangDao) {
         langDao.deleteWord(word)
     }
 
+    fun searchDatabase(searchQuery: String): Flow<List<Word>> {
+        return langDao.searchDatabase(searchQuery)
+    }
 
     //category operations
 
