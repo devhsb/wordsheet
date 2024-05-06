@@ -63,6 +63,15 @@ class WordViewModel @Inject constructor(
         }
     }
 
+    fun resetWordState() {
+        _wordUiState.update {
+            it.copy(
+                searchQuery = "",
+                isSearchActive = false
+            )
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun handleDatabase() {
@@ -87,7 +96,7 @@ class WordViewModel @Inject constructor(
 
 
     val allWords = MutableStateFlow<List<Word>>(emptyList())
-    private fun getAllWords() {
+    fun getAllWords() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllWords.collectLatest {
                 allWords.value = it
