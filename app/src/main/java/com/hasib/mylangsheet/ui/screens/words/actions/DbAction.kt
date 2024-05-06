@@ -5,5 +5,6 @@ enum class DbAction {
     UPDATE,
     MANUAL_UPDATE,
     DELETE,
+    SEARCH,
     NO_ACTION
 }
