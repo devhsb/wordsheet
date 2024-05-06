@@ -43,6 +43,7 @@ fun Navigation(
 
     val allWords = wordViewModel.allWords.collectAsState().value
 
+
     val dialogViewModel = wordViewModel.dialogViewModel
 
     NavHost(
