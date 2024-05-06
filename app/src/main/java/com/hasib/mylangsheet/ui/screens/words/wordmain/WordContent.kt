@@ -142,7 +142,7 @@ private fun WordScreenBody(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+
 @Composable
 private fun WordList(
     modifier: Modifier = Modifier,
