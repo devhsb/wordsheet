@@ -83,8 +83,7 @@ private fun WordScreenBody(
                 wordViewModel = wordViewModel,
                 onWordItemClicked = onWordItemClicked,
                 onPracticeItemClicked = onPracticeItemClicked,
-                onCategoryItemClicked = onCategoryItemClicked,
-
+                onCategoryItemClicked = onCategoryItemClicked
             )
         },
         bottomBar = {
