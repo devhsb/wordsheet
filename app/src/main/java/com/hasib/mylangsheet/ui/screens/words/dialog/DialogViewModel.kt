@@ -27,6 +27,7 @@ class DialogViewModel : ViewModel() {
 
     fun updateDialogState(
         selectedWord: Word = dialogUiState.value.selectedWord,
+        oldWord: String = dialogUiState.value.oldWord,
         isDialogOpen: Boolean = dialogUiState.value.isDialogOpen,
         isSimpleDialogOpen: Boolean = dialogUiState.value.isSimpleDialogOpen,
         dialogTitle: String = dialogUiState.value.dialogTitle,
@@ -35,6 +36,7 @@ class DialogViewModel : ViewModel() {
         _dialogUiState.update { currentState ->
             currentState.copy(
                 selectedWord = selectedWord,
+                oldWord = oldWord,
                 isDialogOpen = isDialogOpen,
                 isSimpleDialogOpen = isSimpleDialogOpen,
                 dialogTitle = dialogTitle,
