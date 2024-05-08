@@ -20,20 +20,21 @@ interface LangDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertWord(word: Word)
 
-    @Update
-    suspend fun updateWord(word: Word)
 
-    @Query("UPDATE word_table SET word = :word, word_meaning = :wordMeaning")
-    suspend fun updateWord(word: String, wordMeaning: String)
+    @Query("UPDATE word_table SET word = :word, word_meaning = :wordMeaning, category = :category WHERE word = :wordId")
+    suspend fun updateWord(
+        wordId: String,
+        word: String, wordMeaning: String, category: String
+    )
 
     @Delete
     suspend fun deleteWord(word: Word)
 
     @Query("SELECT * FROM $WORD_TABLE_NAME")
-    fun getAllWords() : Flow<List<Word>>
+    fun getAllWords(): Flow<List<Word>>
 
     @Query("SELECT * FROM $WORD_TABLE_NAME WHERE word = :wordId")
-    fun getSelectedWord(wordId: Int) : Flow<Word>
+    fun getSelectedWord(wordId: Int): Flow<Word>
 
     @Query("SELECT * FROM $WORD_TABLE_NAME WHERE word LIKE :searchQuery")
     fun searchDatabase(searchQuery: String): Flow<List<Word>>
@@ -47,10 +48,10 @@ interface LangDao {
     suspend fun deleteCategory(category: Category)
 
     @Query("SELECT * FROM category")
-    fun getCategories()  : Flow<List<Category>>
+    fun getCategories(): Flow<List<Category>>
 
     @Transaction
     @Query("SELECT * FROM category WHERE category_name = :category")
-    fun getCategoryWithWords(category: String) : Flow<List<CategoryWithWord>>
+    fun getCategoryWithWords(category: String): Flow<List<CategoryWithWord>>
 
 }
