@@ -1,8 +1,8 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +36,7 @@ import com.hasib.mylangsheet.ui.shared_components.CenterAlignedTopAppbar
 import com.hasib.mylangsheet.ui.screens.words.dialog.NewWordDialog
 import com.hasib.mylangsheet.ui.screens.words.dialog.SimpleDialog
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun WordScreenContent(
     modifier: Modifier = Modifier,
@@ -59,6 +60,7 @@ fun WordScreenContent(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.N)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 private fun WordScreenBody(
@@ -124,7 +126,7 @@ private fun WordScreenBody(
                     },
 
                     onEditPressed = {
-                        action = DbAction.MANUAL_UPDATE
+                        action = DbAction.UPDATE
                         dialogViewModel.updateDialogState(
                             isSimpleDialogOpen = false,
                             isDialogOpen = true
@@ -148,6 +150,7 @@ private fun WordList(
     wordList: List<Word>,
     dialogViewModel: DialogViewModel
 ) {
+
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         verticalItemSpacing = 7.dp,
@@ -165,6 +168,7 @@ private fun WordList(
                 openSimpleDialog = {
                     dialogViewModel.updateDialogState(
                         selectedWord = word,
+                        oldWord = word.word,
                         isSimpleDialogOpen = true
                     )
                 }
@@ -194,7 +198,9 @@ fun WordCard(
     ) {
 
         Box(
-            modifier = Modifier.fillMaxSize().padding(15.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
