@@ -43,7 +43,6 @@ fun SearchTextField(
             wordViewModel.resetWordState()
             wordViewModel.getAllWords()
         })
-
         TextField(
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
