@@ -78,7 +78,6 @@ class WordViewModel @Inject constructor(
         when (dbAction.value) {
             DbAction.INSERT -> insertWord(category = dialogUiState.value.categoryName)
             DbAction.UPDATE -> updateWord()
-            DbAction.MANUAL_UPDATE -> updateWordManual()
             DbAction.DELETE -> deleteWord()
             DbAction.SEARCH -> searchDatabase(query = wordUiState.value.searchQuery)
             DbAction.NO_ACTION -> TODO()
@@ -92,9 +91,15 @@ class WordViewModel @Inject constructor(
             repository.insertWord(newWord)
         }
     }
+
+    private fun insertWord(word: Word) {
+        viewModelScope.launch {
+            repository.insertWord(word)
+        }
+    }
+
+
     // Retrieve all words operation
-
-
     val allWords = MutableStateFlow<List<Word>>(emptyList())
     fun getAllWords() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -127,20 +132,18 @@ class WordViewModel @Inject constructor(
 
     // Update operation
     private fun updateWord() {
+        val oldWord = dialogUiState.value.oldWord
+        val selectedWord = dialogUiState.value.selectedWord
         viewModelScope.launch(Dispatchers.IO) {
-            val updatedWord = dialogUiState.value.selectedWord
-            repository.updateWord(updatedWord)
+            repository.updateWord(
+                oldWord,
+                selectedWord.word,
+                selectedWord.wordMeaning,
+                selectedWord.category
+            )
         }
     }
 
-    // Manual update
-    private fun updateWordManual() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val word = dialogUiState.value.selectedWord.word
-            val wordMeaning = dialogUiState.value.selectedWord.wordMeaning
-            repository.updateWord(word, wordMeaning)
-        }
-    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun searchDatabase(query: String) {
@@ -152,7 +155,6 @@ class WordViewModel @Inject constructor(
             }
         }
     }
-
 
     fun insertCategory() {
         viewModelScope.launch(Dispatchers.IO) {
