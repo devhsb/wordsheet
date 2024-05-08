@@ -2,6 +2,7 @@ package com.hasib.mylangsheet.ui.screens.words.dialog
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -147,26 +148,26 @@ fun WordInsertionTextField(
 }
 
 
-@Preview()
-@Composable
-fun NewCoinInsertDialogPreview() {
-    MyLangsheetTheme(useDarkTheme = true) {
-        NewWordDialog(
-            wordViewModel = viewModel(),
-
-        )
-
-    }
-}
-
-@Preview()
-@Composable
-fun NewCoinInsertDialogLightPreview() {
-    MyLangsheetTheme(useDarkTheme = false) {
-        NewWordDialog(
-            wordViewModel = viewModel(),
-
-        )
-
-    }
-}
+//@Preview()
+//@Composable
+//fun NewCoinInsertDialogPreview() {
+//    MyLangsheetTheme(useDarkTheme = true) {
+//        NewWordDialog(
+//            wordViewModel = viewModel(),
+//
+//        )
+//
+//    }
+//}
+//
+//@Preview()
+//@Composable
+//fun NewCoinInsertDialogLightPreview() {
+//    MyLangsheetTheme(useDarkTheme = false) {
+//        NewWordDialog(
+//            wordViewModel = viewModel(),
+//
+//        )
+//
+//    }
+//}
