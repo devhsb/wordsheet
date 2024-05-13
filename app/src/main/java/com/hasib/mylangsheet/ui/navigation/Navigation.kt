@@ -20,6 +20,7 @@ import androidx.navigation.navArgument
 import com.hasib.mylangsheet.data.room.entites.word.Word
 import com.hasib.mylangsheet.ui.screens.categories.catmain.CategoryScreen
 import com.hasib.mylangsheet.ui.screens.practice.practicemain.PracticeScreen
+import com.hasib.mylangsheet.ui.screens.words.actions.DbAction
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordsScreen
 import com.hasib.mylangsheet.util.Constants.CATEGORY_SCREEN
@@ -43,8 +44,9 @@ fun Navigation(
 
     val allWords = wordViewModel.allWords.collectAsState().value
 
-
     val dialogViewModel = wordViewModel.dialogViewModel
+
+    val action = wordViewModel.dbAction.value
 
     NavHost(
         navController = navController,
@@ -62,9 +64,11 @@ fun Navigation(
                 )
             }
 
-            val dialogCategoryTitle = if (categoryName == "All") "general" else categoryName ?: "general"
+            val dialogCategoryTitle =
+                if (categoryName == "All") "general" else categoryName ?: "general"
             dialogViewModel.updateDialogState(
-                dialogTitle = "Add Into $dialogCategoryTitle",
+                dialogTitle = if (action == DbAction.UPDATE)
+                    "Update ${dialogViewModel.dialogUiState.value.oldWord}" else "Add Into $dialogCategoryTitle",
                 categoryName = dialogCategoryTitle
             )
 
