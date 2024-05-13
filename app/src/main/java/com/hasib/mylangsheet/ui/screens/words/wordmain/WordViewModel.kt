@@ -1,7 +1,6 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -71,7 +70,6 @@ class WordViewModel @Inject constructor(
             )
         }
     }
-
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun handleDatabase() {
