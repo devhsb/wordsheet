@@ -35,6 +35,7 @@ import com.hasib.mylangsheet.ui.shared_components.BottomBar
 import com.hasib.mylangsheet.ui.shared_components.CenterAlignedTopAppbar
 import com.hasib.mylangsheet.ui.screens.words.dialog.NewWordDialog
 import com.hasib.mylangsheet.ui.screens.words.dialog.SimpleDialog
+import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
@@ -204,7 +205,7 @@ fun WordCard(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = word.word,
+                text = word.word.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
                 style = MaterialTheme.typography.titleSmall,
                 letterSpacing = 3.sp,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
