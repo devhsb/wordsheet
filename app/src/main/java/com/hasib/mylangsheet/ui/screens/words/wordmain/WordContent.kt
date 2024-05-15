@@ -46,7 +46,9 @@ fun WordScreenContent(
     onPracticeItemClicked: () -> Unit,
     onCategoryItemClicked: () -> Unit,
     wordList: List<Word>,
-    appBarTitle: String
+    appBarTitle: String,
+
+    onPracticeBtnClicked: () -> Unit,
 ) {
 
     WordScreenBody(
@@ -56,8 +58,8 @@ fun WordScreenContent(
         onPracticeItemClicked = onPracticeItemClicked,
         onCategoryItemClicked = onCategoryItemClicked,
         wordList = wordList,
-        appBarTitle = appBarTitle
-
+        appBarTitle = appBarTitle,
+        onPracticeBtnClicked = onPracticeBtnClicked
     )
 }
 
@@ -71,7 +73,9 @@ private fun WordScreenBody(
     onPracticeItemClicked: () -> Unit,
     onCategoryItemClicked: () -> Unit,
     wordList: List<Word>,
-    appBarTitle: String
+    appBarTitle: String,
+
+    onPracticeBtnClicked: () -> Unit,
 ) {
 
     val dialogViewModel = wordViewModel.dialogViewModel
@@ -91,11 +95,12 @@ private fun WordScreenBody(
         },
         bottomBar = {
             BottomBar(
-                addBtnText = "ADD",
+                btnText = "Add",
                 onAddButtonClicked = {
                     action = DbAction.INSERT
                     dialogViewModel.isDialogOpen()
-                }
+                },
+                onPracticeBtnClicked = onPracticeBtnClicked
             )
         }
     ) {
