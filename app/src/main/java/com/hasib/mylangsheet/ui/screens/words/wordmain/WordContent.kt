@@ -2,9 +2,11 @@ package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +27,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hasib.mylangsheet.data.room.entites.word.Word
@@ -184,11 +189,13 @@ private fun WordList(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WordCard(
     modifier: Modifier = Modifier,
     word: Word,
-    openSimpleDialog: () -> Unit
+    openSimpleDialog: () -> Unit = {},
+    onLongPress: () -> Unit = {}
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     Card(
@@ -196,7 +203,13 @@ fun WordCard(
             .width(
                 (screenWidth / 2).dp
             )
-            .clickable(onClick = openSimpleDialog),
+            .clickable(onClick = openSimpleDialog)
+            .combinedClickable(
+                onClick = openSimpleDialog,
+                onLongClick = onLongPress,
+                onLongClickLabel = null
+            ),
+
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
