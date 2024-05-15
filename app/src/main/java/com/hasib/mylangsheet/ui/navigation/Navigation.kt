@@ -1,11 +1,12 @@
 package com.hasib.mylangsheet.ui.navigation
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,7 +18,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.hasib.mylangsheet.data.room.entites.word.Word
 import com.hasib.mylangsheet.ui.screens.categories.catmain.CategoryScreen
 import com.hasib.mylangsheet.ui.screens.practice.practicemain.PracticeScreen
 import com.hasib.mylangsheet.ui.screens.words.actions.DbAction
@@ -33,7 +33,8 @@ enum class NavigationType {
     CATEGORY_SCREEN
 }
 
-
+@SuppressLint("StateFlowValueCalledInComposition")
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun Navigation(
     navController: NavHostController,
@@ -42,11 +43,13 @@ fun Navigation(
     val context = LocalContext.current
     val categoryWords by wordViewModel.categoryWords.collectAsState()
 
-    val allWords = wordViewModel.allWords.collectAsState().value
+    val allWords by wordViewModel.allWords.collectAsState()
 
     val dialogViewModel = wordViewModel.dialogViewModel
 
     val action = wordViewModel.dbAction.value
+
+
 
     NavHost(
         navController = navController,
@@ -58,9 +61,9 @@ fun Navigation(
             arguments = listOf(navArgument("category") { type = NavType.StringType })
         ) { backStackEntry ->
 
-            var categoryName by remember {
-                mutableStateOf(
-                    backStackEntry.arguments?.getString("category")
+
+            var categoryName: String? by remember {
+                mutableStateOf(backStackEntry.arguments?.getString("category")
                 )
             }
 
@@ -79,11 +82,11 @@ fun Navigation(
 
 
                 onWordItemClicked = {
-                    categoryName = "All"
+                    categoryName = null
                     navigate(
                         navigationType = NavigationType.WORD_SCREEN,
                         wordViewModel = wordViewModel,
-                        navController = navController
+                        navController = navController,
                     )
                 },
 
@@ -102,6 +105,15 @@ fun Navigation(
                         navController = navController,
                         wordViewModel = wordViewModel
                     )
+                },
+
+                onPracticeBtnClicked = {
+                    navigate(
+                        navigationType = NavigationType.PRACTICE_SCREEN,
+                        wordViewModel = wordViewModel,
+                        navController = navController,
+                        context = context
+                    )
                 }
             )
 
@@ -110,8 +122,11 @@ fun Navigation(
         composable(route = PRACTICE_SCREEN) {
 
 
+            val dialogUiState by dialogViewModel.dialogUiState.collectAsState()
             PracticeScreen(
                 wordViewModel = wordViewModel,
+                words = if (dialogUiState.categoryName == "general") allWords else categoryWords,
+//                words = allWords,
 
                 onWordItemClicked = {
                     navigate(
@@ -174,6 +189,15 @@ fun Navigation(
                 onCategoryCardClicked = { category ->
                     wordViewModel.getCategoryWords(category)
                     navController.navigate(route = "words/$category")
+                },
+
+                onPracticeBtnClicked = {
+                    navigate(
+                        navigationType = NavigationType.PRACTICE_SCREEN,
+                        wordViewModel = wordViewModel,
+                        navController = navController,
+                        context = context
+                    )
                 }
             )
         }
