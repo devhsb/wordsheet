@@ -10,8 +10,9 @@ fun CategoryScreen(
     onWordItemClicked: () -> Unit = {},
     onPracticeItemClicked: () -> Unit = {},
     onCategoryClicked: () -> Unit = {},
+    onCategoryCardClicked: (categoryName: String) -> Unit,
 
-    onCategoryCardClicked: (categoryName: String) -> Unit
+    onPracticeBtnClicked: () -> Unit,
 ) {
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     CategoryContent(
@@ -22,6 +23,7 @@ fun CategoryScreen(
         wordViewModel = wordViewModel,
         onSwipeDismiss = {
             categoryViewModel.deleteCategory(it)
-        }
+        },
+        onPracticeBtnClicked = onPracticeBtnClicked
     )
 }

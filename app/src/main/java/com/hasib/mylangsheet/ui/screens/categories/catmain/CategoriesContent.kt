@@ -1,6 +1,8 @@
 package com.hasib.mylangsheet.ui.screens.categories.catmain
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -47,6 +49,7 @@ import com.hasib.mylangsheet.ui.shared_components.RedBackground
 import com.hasib.mylangsheet.ui.theme.MyLangsheetTheme
 import kotlinx.coroutines.delay
 
+@RequiresApi(Build.VERSION_CODES.N)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun CategoryContent(
@@ -55,8 +58,9 @@ fun CategoryContent(
     onPracticeItemClicked: () -> Unit = {},
     onCategoryItemClicked: () -> Unit = {},
     onSwipeDismiss: (Category) -> Unit,
+    onCategoryCardClicked: (categoryName: String) -> Unit,
 
-    onCategoryCardClicked: (categoryName: String) -> Unit
+    onPracticeBtnClicked: () -> Unit,
 
 ) {
     val catDialogViewModel = wordViewModel.catDialogViewModel
@@ -78,11 +82,12 @@ fun CategoryContent(
 
         bottomBar = {
             BottomBar(
-                addBtnText = "CREATE",
+                btnText = "CREATE",
 
                 onAddButtonClicked = {
                     catDialogViewModel.updateCatDialogState(isCatDialogOpen = true)
-                }
+                },
+                onPracticeBtnClicked = onPracticeBtnClicked
             )
         }
 
