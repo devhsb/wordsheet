@@ -1,5 +1,7 @@
 package com.hasib.mylangsheet.ui.screens.practice.practicemain
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,15 +30,15 @@ import com.hasib.mylangsheet.ui.screens.words.wordmain.WordCard
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
 import com.hasib.mylangsheet.ui.shared_components.CenterAlignedTopAppbar
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun PracticeContent(
+    words: List<Word>,
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit = {},
     onPracticeItemClicked: () -> Unit = {},
     onCategoryClicked: () -> Unit = {},
 ) {
-
-    val words by wordViewModel.allWords.collectAsState()
 
     val passedWord: MutableList<Word> = words.toMutableList()
 
