@@ -2,6 +2,7 @@ package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
@@ -27,6 +28,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -60,6 +62,10 @@ fun WordScreenContent(
 
     onPracticeBtnClicked: () -> Unit,
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        wordViewModel.textToSpeach(context, "")
+    }
 
     WordScreenBody(
         modifier = Modifier.padding(10.dp),
@@ -225,7 +231,11 @@ fun WordCard(
                 onLongClick = onLongPress,
                 onLongClickLabel = null
             )
-            .border(1.dp, shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.outline.copy(alpha = .2f)),
+            .border(
+                1.dp,
+                shape = MaterialTheme.shapes.medium,
+                color = MaterialTheme.colorScheme.outline.copy(alpha = .2f)
+            ),
 
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
@@ -254,7 +264,8 @@ fun WordCard(
                 imageVector = Icons.Filled.PlayArrow,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier.alpha(.7f)
+                modifier = Modifier
+                    .alpha(.7f)
                     .align(Alignment.Start)
             )
         }
