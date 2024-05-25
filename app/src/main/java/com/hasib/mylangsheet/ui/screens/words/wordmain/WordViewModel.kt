@@ -1,6 +1,8 @@
 package com.hasib.mylangsheet.ui.screens.words.wordmain
 
+import android.content.Context
 import android.os.Build
+import android.speech.tts.TextToSpeech
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 data class WordUiState(
@@ -36,6 +39,7 @@ class WordViewModel @Inject constructor(
     init {
         getAllWords()
         getCategoryWords(dialogUiState.value.categoryName)
+
     }
 
 
@@ -161,5 +165,49 @@ class WordViewModel @Inject constructor(
             repository.insertCategory(newCategory)
         }
     }
+
+    private var textToSpeech : TextToSpeech? = null
+    fun textToSpeach(context: Context, text: String) {
+        textToSpeech =  TextToSpeech(context) {
+            if(it == TextToSpeech.SUCCESS) {
+                textToSpeech?.let { ttp ->
+                    ttp.language = Locale.US
+                    ttp.setSpeechRate(.7F)
+                    ttp.speak(
+                        text,
+                        TextToSpeech.QUEUE_ADD,
+                        null,
+                        null
+                    )
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
