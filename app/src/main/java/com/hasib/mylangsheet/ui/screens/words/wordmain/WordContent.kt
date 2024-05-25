@@ -2,22 +2,27 @@ package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,10 +32,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedback
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hasib.mylangsheet.data.room.entites.word.Word
@@ -45,7 +51,6 @@ import java.util.Locale
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun WordScreenContent(
-    modifier: Modifier = Modifier,
     wordViewModel: WordViewModel,
     onWordItemClicked: () -> Unit,
     onPracticeItemClicked: () -> Unit,
@@ -79,7 +84,6 @@ private fun WordScreenBody(
     onCategoryItemClicked: () -> Unit,
     wordList: List<Word>,
     appBarTitle: String,
-
     onPracticeBtnClicked: () -> Unit,
 ) {
 
@@ -109,6 +113,7 @@ private fun WordScreenBody(
             )
         }
     ) {
+
         Box(
             modifier = modifier
                 .padding(it)
@@ -148,7 +153,8 @@ private fun WordScreenBody(
             }
             WordList(
                 wordList = wordList,
-                dialogViewModel = dialogViewModel
+                dialogViewModel = dialogViewModel,
+                wordViewModel = wordViewModel
             )
         }
     }
@@ -159,8 +165,10 @@ private fun WordScreenBody(
 private fun WordList(
     modifier: Modifier = Modifier,
     wordList: List<Word>,
-    dialogViewModel: DialogViewModel
+    dialogViewModel: DialogViewModel,
+    wordViewModel: WordViewModel,
 ) {
+    val context = LocalContext.current
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -182,6 +190,13 @@ private fun WordList(
                         oldWord = word.word,
                         isSimpleDialogOpen = true
                     )
+                },
+
+                onTextToSpeechBtnClicked = {
+                    wordViewModel.textToSpeach(
+                        context = context,
+                        text = word.word
+                    )
                 }
             )
         }
@@ -195,7 +210,8 @@ fun WordCard(
     modifier: Modifier = Modifier,
     word: Word,
     openSimpleDialog: () -> Unit = {},
-    onLongPress: () -> Unit = {}
+    onLongPress: () -> Unit = {},
+    onTextToSpeechBtnClicked: () -> Unit = {}
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     Card(
@@ -208,29 +224,48 @@ fun WordCard(
                 onClick = openSimpleDialog,
                 onLongClick = onLongPress,
                 onLongClickLabel = null
-            ),
+            )
+            .border(1.dp, shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.outline.copy(alpha = .2f)),
 
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.onBackground.copy(alpha = .1f),
         )
     ) {
 
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(15.dp),
+                .fillMaxWidth()
+                .padding(5.dp)
+                .offset(y = 5.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = word.word.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
                 style = MaterialTheme.typography.titleSmall,
                 letterSpacing = 3.sp,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        IconButton(onClick = onTextToSpeechBtnClicked) {
+            Icon(
+                imageVector = Icons.Filled.PlayArrow,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier.alpha(.7f)
+                    .align(Alignment.Start)
             )
         }
 
     }
+}
+
+@Preview
+@Composable
+fun WordCardPreview() {
+    WordCard(word = Word("Test", "Test"))
 }
 
 
