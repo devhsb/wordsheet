@@ -148,28 +148,3 @@ fun WordInsertionTextField(
     )
 
 }
-
-
-//@Preview()
-//@Composable
-//fun NewCoinInsertDialogPreview() {
-//    MyLangsheetTheme(useDarkTheme = true) {
-//        NewWordDialog(
-//            wordViewModel = viewModel(),
-//
-//        )
-//
-//    }
-//}
-//
-//@Preview()
-//@Composable
-//fun NewCoinInsertDialogLightPreview() {
-//    MyLangsheetTheme(useDarkTheme = false) {
-//        NewWordDialog(
-//            wordViewModel = viewModel(),
-//
-//        )
-//
-//    }
-//}
