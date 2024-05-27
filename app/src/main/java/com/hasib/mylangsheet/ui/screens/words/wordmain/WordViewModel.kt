@@ -19,7 +19,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 
@@ -150,9 +152,12 @@ class WordViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.N)
     fun searchDatabase(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.searchDatabase(query).collectLatest {
-                allWords.value = it.filter { word ->
+            repository.getAllWords.collectLatest { wordList ->
+                val filteredWords = wordList.filter { word ->
                     word.word.contains(query, ignoreCase = true)
+                }
+                withContext(Dispatchers.Main) {
+                    allWords.value = filteredWords
                 }
             }
         }
@@ -166,10 +171,10 @@ class WordViewModel @Inject constructor(
         }
     }
 
-    private var textToSpeech : TextToSpeech? = null
+    private var textToSpeech: TextToSpeech? = null
     fun textToSpeach(context: Context, text: String) {
-        textToSpeech =  TextToSpeech(context) {
-            if(it == TextToSpeech.SUCCESS) {
+        textToSpeech = TextToSpeech(context) {
+            if (it == TextToSpeech.SUCCESS) {
                 textToSpeech?.let { ttp ->
                     ttp.language = Locale.US
                     ttp.setSpeechRate(.7F)
@@ -183,31 +188,6 @@ class WordViewModel @Inject constructor(
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
