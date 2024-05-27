@@ -40,14 +40,14 @@ fun Navigation(
     wordViewModel: WordViewModel
 ) {
     val context = LocalContext.current
+
     val categoryWords by wordViewModel.categoryWords.collectAsState()
 
     val allWords by wordViewModel.allWords.collectAsState()
 
     val dialogViewModel = wordViewModel.dialogViewModel
 
-    val action = wordViewModel.dbAction.value
-
+    val action by wordViewModel.dbAction
 
 
     NavHost(
@@ -219,7 +219,7 @@ private fun navigate(
         }
 
         NavigationType.PRACTICE_SCREEN -> {
-            if (wordViewModel.categoryWords.value.isEmpty()) {
+            if (wordViewModel.allWords.value.isEmpty()) {
                 Toast.makeText(context, "Please add some words first", Toast.LENGTH_SHORT)
                     .show()
             } else {
