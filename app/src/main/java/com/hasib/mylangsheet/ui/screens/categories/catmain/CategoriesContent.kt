@@ -206,7 +206,7 @@ private fun CategoryCard(
 @Composable
 private fun CategoryCardPrevie() {
     MyLangsheetTheme(useDarkTheme = true) {
-        CategoryCard(Category("janm"), {})
+        CategoryCard(Category("jam")) {}
     }
 }
 

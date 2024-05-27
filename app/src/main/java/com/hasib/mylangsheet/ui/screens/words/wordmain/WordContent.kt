@@ -184,11 +184,11 @@ private fun WordList(
         modifier = modifier
             .fillMaxWidth()
     ) {
+
         items(
             items = wordList,
             key = { it.word }
         ) { word ->
-
             WordCard(
                 word = word,
                 openSimpleDialog = {
@@ -221,6 +221,7 @@ fun WordCard(
     onTextToSpeechBtnClicked: () -> Unit = {}
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
+
     Card(
         modifier = modifier
             .width(

@@ -6,18 +6,14 @@ import android.os.Build
 import android.os.Environment
 import android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CutCornerShape
@@ -25,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -35,7 +30,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,20 +42,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.MultiplePermissionsState
-import com.google.accompanist.permissions.PermissionState
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.permissions.shouldShowRationale
 import com.hasib.mylangsheet.data.room.backup.BackupDatabase.backupDb
 import com.hasib.mylangsheet.data.room.backup.RestoreDatabase.restoreDb
 import com.hasib.mylangsheet.ui.screens.words.wordmain.WordViewModel
-import java.util.jar.Manifest
 
 @RequiresApi(Build.VERSION_CODES.N)
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CenterAlignedTopAppbar(
     title: String,
@@ -132,11 +118,11 @@ fun CenterAlignedTopAppbar(
                             contentDescription = null
                         )
                     }
-
-
                 }
             }
         })
+
+
 
         DropdownMenu(
             modifier = Modifier
@@ -144,18 +130,20 @@ fun CenterAlignedTopAppbar(
             expanded = menuExpanded,
             onDismissRequest = { menuExpanded = !menuExpanded }
         ) {
-            AppbarDropdownMenuItem(
-                text = "Words",
-                onItemClicked = onWordItemClicked
-            )
-            AppbarDropdownMenuItem(
-                text = "Practice",
-                onItemClicked = onPracticeItemClicked
-            )
-            AppbarDropdownMenuItem(
-                text = "Categories",
-                onItemClicked = onCategoryItemClicked
-            )
+            Column {
+                AppbarDropdownMenuItem(
+                    text = "Words",
+                    onItemClicked = onWordItemClicked
+                )
+                AppbarDropdownMenuItem(
+                    text = "Practice",
+                    onItemClicked = onPracticeItemClicked
+                )
+                AppbarDropdownMenuItem(
+                    text = "Categories",
+                    onItemClicked = onCategoryItemClicked
+                )
+            }
         }
 
         Box(
@@ -171,11 +159,12 @@ fun CenterAlignedTopAppbar(
                 BackupRestoreDropdownItem(
                     text = "Backup",
                     onItemClicked = {
-                        if(!Environment.isExternalStorageManager()) {
-                            Toast.makeText(context, "Please grant permission", Toast.LENGTH_SHORT).show()
+                        if (!Environment.isExternalStorageManager()) {
+                            Toast.makeText(context, "Please grant permission", Toast.LENGTH_SHORT)
+                                .show()
                             val openSettings = Intent(ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
                             context.startActivity(openSettings)
-                        }else{
+                        } else {
                             backupDb(context = context)
                         }
 
@@ -187,11 +176,12 @@ fun CenterAlignedTopAppbar(
                     text = "Restore",
                     onItemClicked = {
 
-                        if(!Environment.isExternalStorageManager()) {
-                            Toast.makeText(context, "Please grant permission", Toast.LENGTH_SHORT).show()
+                        if (!Environment.isExternalStorageManager()) {
+                            Toast.makeText(context, "Please grant permission", Toast.LENGTH_SHORT)
+                                .show()
                             val openSettings = Intent(ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
                             context.startActivity(openSettings)
-                        }else{
+                        } else {
                             restoreDb(context = context)
                             restartApp(context = context)
                         }
