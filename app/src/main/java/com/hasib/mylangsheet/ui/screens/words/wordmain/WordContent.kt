@@ -2,7 +2,6 @@ package com.hasib.mylangsheet.ui.screens.words.wordmain
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
@@ -148,10 +147,12 @@ private fun WordScreenBody(
                     },
 
                     onEditPressed = {
+                        val dialogTitle = "Update ${dialogUiState.selectedWord.word}"
                         action = DbAction.UPDATE
                         dialogViewModel.updateDialogState(
                             isSimpleDialogOpen = false,
-                            isDialogOpen = true
+                            isDialogOpen = true,
+                            dialogTitle = dialogTitle
                         )
                     },
                     wordMeaning = dialogUiState.selectedWord.wordMeaning
