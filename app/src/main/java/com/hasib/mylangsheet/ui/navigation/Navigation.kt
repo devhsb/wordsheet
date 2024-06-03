@@ -104,12 +104,17 @@ fun Navigation(
                 },
 
                 onPracticeBtnClicked = {
-                    navigate(
-                        navigationType = NavigationType.PRACTICE_SCREEN,
-                        wordViewModel = wordViewModel,
-                        navController = navController,
-                        context = context
-                    )
+                    if(allWords.isEmpty() || categoryWords.isEmpty()){
+                        Toast.makeText(context, "Please add some words first", Toast.LENGTH_SHORT)
+                            .show()
+                    }else{
+                        navigate(
+                            navigationType = NavigationType.PRACTICE_SCREEN,
+                            wordViewModel = wordViewModel,
+                            navController = navController,
+                            context = context
+                        )
+                    }
                 }
             )
 
