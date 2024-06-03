@@ -59,7 +59,8 @@ fun Navigation(
 
 
             var categoryName: String? by remember {
-                mutableStateOf(backStackEntry.arguments?.getString("category")
+                mutableStateOf(
+                    backStackEntry.arguments?.getString("category")
                 )
             }
 
@@ -87,10 +88,23 @@ fun Navigation(
                 },
 
                 onPracticeItemClicked = {
-                    if(allWords.isEmpty() || categoryWords.isEmpty()){
-                        Toast.makeText(context, "Please add some words first", Toast.LENGTH_SHORT)
-                            .show()
-                    }else{
+                    if (categoryName != null) {
+                        if (categoryWords.isEmpty()) {
+                            Toast.makeText(
+                                context,
+                                "Please add some words first",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }else{
+                            navigate(
+                                navigationType = NavigationType.PRACTICE_SCREEN,
+                                wordViewModel = wordViewModel,
+                                navController = navController,
+                                context = context
+                            )
+                        }
+                    } else {
                         navigate(
                             navigationType = NavigationType.PRACTICE_SCREEN,
                             wordViewModel = wordViewModel,
@@ -109,10 +123,14 @@ fun Navigation(
                 },
 
                 onPracticeBtnClicked = {
-                    if(allWords.isEmpty() || categoryWords.isEmpty()){
-                        Toast.makeText(context, "Please add some words first", Toast.LENGTH_SHORT)
+                    if (categoryWords.isEmpty() && categoryName != null) {
+                        Toast.makeText(
+                            context,
+                            "Please add some words to $categoryName",
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
-                    }else{
+                    } else {
                         navigate(
                             navigationType = NavigationType.PRACTICE_SCREEN,
                             wordViewModel = wordViewModel,
